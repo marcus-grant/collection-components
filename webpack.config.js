@@ -11,10 +11,10 @@ const paths = {
 
 const files = {
   INDEX_JS: path.join(paths.SRC, 'index.jsx'),
-  INDEX_HTML: 'index.html',
-  MAIN_SCSS: path.join(paths.SRC, 'main.scss'),
-  BUNDLE: 'bundle.js',
-  DIST_CSS: 'styles.css',
+  INDEX_HTML: 'dist/index.html',
+  MAIN_SCSS: path.join(paths.SRC, 'index.scss'),
+  BUNDLE: 'dist/bundle.js',
+  DIST_CSS: 'dist/styles.css',
 };
 
 // Webpack configs
