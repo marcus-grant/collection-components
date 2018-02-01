@@ -1,0 +1,14 @@
+@import "../partial-styles/_variables.scss";
+
+.list-cell__container {
+  border: 1px solid nth($grey, 9);
+  background: OrangeRed;
+}
+
+.list-cell__label {
+  background: Orange;
+}
+
+.list-cell__label--detail {
+  background: PaleVioletRed;
+}

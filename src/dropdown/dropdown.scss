@@ -1,0 +1,113 @@
+$collapsed-bg: #2ecc71;
+$expanded-bg: #1abc9c;
+$max-menu-height: auto;
+$collapse-duration: 500ms;
+$expand-duration: 500ms;
+
+.dropdown__container {
+  background: $collapsed-bg;
+}
+
+.dropdown__container--expanded {
+  background: $expanded-bg;
+}
+
+.dropdown__button {
+  background: $collapsed-bg;
+}
+
+.dropdown__button--expanded {
+  background: $expanded-bg;
+}
+
+// Menu Transitions
+.dropdown-controls__menu--expanded {
+  float: true;
+  opacity: 1;
+  max-height: auto;
+  height: 100px;
+  transition: $collapse-duration;
+}
+
+.dropdown-controls__menu--collapsed {
+  opacity: 0;
+  height: 0px;
+  transition: $expand-duration;
+}
+
+ul.dropdown__list {
+  border: #ababab solid 1px;
+  width: 80%;
+  font-size: 1.2rem;
+  list-style-type: none;
+}
+
+// TODO: Move all these to notes and attempt to make them work later
+// Taken from http://bit.ly/2De0HSH
+// .menu-enter {
+//   max-height: 0px;
+//   // -webkit-transition: max-height 1s ease;
+//   transition: max-height 1s ease;
+//   overflow: hidden;
+// }
+//
+// .menu-enter.menu-enter-active {
+//   height: auto;
+//   max-height: 100px;
+// }
+//
+// .menu-leave {
+//   max-height: 100px;
+//   // -webkit-transition: max-height 1s ease;
+// }
+//
+// .menu-leave.menu-leave-active {
+//   overflow: hidden;
+//   max-height: 0px;
+//   transition: max-height 1s ease;
+// }
+
+// Taken from prototypr.io using reactcsstransitiongroups
+// Fade animation, move animations to own file & give vars
+// .fade-enter {
+//   opacity: 0.01;
+// }
+//
+// .fade-enter.fade-enter-active {
+//   opacity: 1;
+//   transition: opacity 500ms ease-in;
+// }
+//
+// .fade-leave {
+//   opacity: 1;
+// }
+//
+// .fade-leave.fade-leave-active {
+//   opacity: 0.01;
+//   transition: opacity 500ms ease-in;
+// }
+
+// Old stuff
+// .dropdown__animation-enter {
+//   opacity: 0.01;
+//   // height: auto;
+//   // max-height: $max-menu-height;
+// }
+//
+// .dropdown__animation-enter.dropdown__animation-active {
+//   // max-height: $max-menu-height;
+//   opacity: 1;
+//   transition: opacity 500ms ease-in;
+// }
+//
+// .dropdown__list-leave {
+//   // overflow: hidden;
+//   // max-height: 0px;
+//   opacity: 1;
+// }
+//
+// .dropdown__list-leave.dropdown__list-active {
+//   opacity: 0.01;
+//   transition: opacity 500ms ease-in;
+// }
+

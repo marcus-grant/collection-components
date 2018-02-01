@@ -1,3 +1,41 @@
+/* Entry point for SASS, only put imports in order here */
+@import "partial-styles/_variables.scss";
+// @import "sass/_workspace.scss";
+// @import "sass/_dropdown-controls.scss";
+
+html {
+  font-size: 62.5%;
+}
+
 body {
-  background: red;
+  background-color: nth($grey, 1);
+  font-family: sans-serif;
+}
+
+h1 { font-size: 3.2rem; font-style: bold; }
+h2 { font-size: 2.4rem; font-style: bold; }
+h3 { font-size: 2.0rem; }
+h4 { font-size: 1.6rem; }
+h5 { font-size: 1.2rem; }
+h6 { font-size: 1.0rem; }
+
+pre {
+  background: nth($grey, 1);
+  padding: 10px 20px;
+  border-radius: 2px;
+  border: 1px solid #ccc;
+}
+
+pre code {
+  line-height: 20px;
+}
+
+button {
+  background: nth($grey, 9);
+  border: 1px;
+  border-radius: $button-radius;
+  box-shadow: none;
+  color: nth($grey-text, 1);
+  font-weight: 600;
+  padding: 6px;
 }
