@@ -1,5 +1,5 @@
 import React from 'react';
-import { DefaultListCell, ListCell } from './lists/list-cell';
+import { DefaultListCell, ListCell } from './lists/lists';
 
 const defCell = <DefaultListCell label="Main Text" detailLabel="Subtext" />;
 const BasicCell = <h1>Basic Header Cell</h1>;
