@@ -30,12 +30,3 @@ pre code {
   line-height: 20px;
 }
 
-button {
-  background: nth($grey, 9);
-  border: 1px;
-  border-radius: $button-radius;
-  box-shadow: none;
-  color: nth($grey-text, 1);
-  font-weight: 600;
-  padding: 6px;
-}

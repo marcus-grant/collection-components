@@ -1,5 +1,9 @@
 import React from 'react';
-import { DefaultListCell, ListCell } from './lists/lists';
+import {
+  DefaultListCell,
+  ListCell,
+  ListSection,
+} from './lists/lists';
 
 const defCell = <DefaultListCell label="Main Text" detailLabel="Subtext" />;
 const BasicCell = <h1>Basic Header Cell</h1>;
@@ -29,7 +33,15 @@ export default class extends React.Component {
         <ListCell>
           <CallbackContent callback={() => this.toggle()} />
         </ListCell>
-        <h4>{this.state.toggle ? 'yes' : 'no'}</h4>
+        <h4>Toggle State: {this.state.toggle ? 'true' : 'false'}</h4>
+        <br />
+        <hr />
+        <h2>List Section:</h2>
+        <ListSection name="A list section" isCollapsible>
+          {[0, 1, 2, 3].map(x => (
+            <DefaultListCell label={`Cell section: 0, Row ${x}`} />
+          ))}
+        </ListSection>
       </div>
     );
   }
