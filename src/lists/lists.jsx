@@ -83,8 +83,6 @@ ListSectionHeader.propTypes = {
   handleClick: PropTypes.func,
 };
 
-// TODO: Add SectionHeaderCell
-// TODO: Standardized Cell Layouts for basic lists
 // TODO: Consider using <ul> & <li>
 export class ListSection extends React.Component {
   constructor(props) {
@@ -97,10 +95,8 @@ export class ListSection extends React.Component {
 
   collapseSection() {
     if (this.props.isCollapsible) {
-      // this.setState(prevState => ({ value: prevState.value - 1 }));
-      this.setState({ isCollapsed: !this.state.isCollapsed });
+      this.setState(prev => ({ isCollapsed: !prev.isCollapsed }));
     }
-    console.log('header clicked!');
   }
 
   render() {

@@ -20,6 +20,7 @@ export default class extends React.Component {
     this.toggle = this.toggle.bind(this);
     this.state = {
       toggle: false,
+
     };
   }
 
