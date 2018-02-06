@@ -18,9 +18,15 @@ export default class extends React.Component {
   constructor(props) {
     super(props);
     this.toggle = this.toggle.bind(this);
+    this.changeTestState = this.changeTestState.bind(this);
     this.state = {
       toggle: false,
-
+      testStates: {
+        0: false,
+        1: false,
+        2: false,
+        3: false,
+      },
     };
   }
 
@@ -28,7 +34,23 @@ export default class extends React.Component {
     this.setState({ toggle: !this.state.toggle });
   }
 
+  changeTestState(key) {
+    const update = this.state.testStates;
+    update[key] = !update[key];
+    this.setState({ testStates: update });
+  }
+
+
   render() {
+    const callbackSectionCell = (id, label, callback) => (
+      <div>
+        <p><b>{label}</b></p>
+        <button onClick={callback(id)} />
+      </div>
+    );
+    const renderSectionCells = () => {
+      Object.keys(this.state.testStates).forEach(key => callbackSectionCell(key, key, this.changeTestState));
+    };
     return (
       <div className="app__container">
         <ListCell>
@@ -37,11 +59,18 @@ export default class extends React.Component {
         <h4>Toggle State: {this.state.toggle ? 'true' : 'false'}</h4>
         <br />
         <hr />
-        <h2>List Section:</h2>
+        <h3>Default List Section:</h3>
         <ListSection name="A list section" isCollapsible>
           {[0, 1, 2, 3].map(x => (
             <DefaultListCell label={`Cell section: 0, Row ${x}`} />
           ))}
+        </ListSection>
+        <br />
+        <hr />
+        <br />
+        <h3>List Section With Custom Cells and Callbacks</h3>
+        <ListSection name="Custom ListSection" isCollapsible>
+          {renderSectionCells}
         </ListSection>
       </div>
     );
