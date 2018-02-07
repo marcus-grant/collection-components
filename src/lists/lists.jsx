@@ -135,4 +135,39 @@ ListSection.propTypes = {
   isCollapsible: PropTypes.bool,
 };
 
-export const 
+const ListContainer = (props) =>
+  <div className="list__container">{props.children}</div>;
+
+ListContainer.propTypes = {
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node).isRequired,
+    PropTypes.node.isRequired,
+  ]).isRequired,
+};
+
+const SectionFromRenderFunc = (section, renderer) => (
+  <ListSection
+);
+
+export const SectionedList = (props) => {
+  let list = [];
+  if (props.children) {
+    list = <ListContainer>{props.children}</ListContainer>;
+  } else {
+
+  }
+};
+
+SectionedList.propTypes = {
+  sections: PropTypes.arrayOf([
+    PropTypes.shape({
+      data: PropTypes.array.isRequired,
+      title: PropTypes.string,
+      sectionRenderer: PropTypes.func,
+    }),
+  ]),
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node).isRequired,
+    PropTypes.node.isRequired,
+  ]).isRequired,
+};
