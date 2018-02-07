@@ -8,10 +8,10 @@ import {
 const defCell = <DefaultListCell label="Main Text" detailLabel="Subtext" />;
 const BasicCell = <h1>Basic Header Cell</h1>;
 const CallbackContent = props => (
-  <div>
-    <h1>This is a button callback</h1>
+  <ListCell>
+    <h4>This is a button callback</h4>
     <button onClick={props.callback}>Toggle</button>
-  </div>
+  </ListCell>
 );
 
 export default class extends React.Component {
@@ -42,20 +42,9 @@ export default class extends React.Component {
 
 
   render() {
-    const callbackSectionCell = (id, label, callback) => (
-      <div>
-        <p><b>{label}</b></p>
-        <button onClick={callback(id)} />
-      </div>
-    );
-    const renderSectionCells = () => {
-      Object.keys(this.state.testStates).forEach(key => callbackSectionCell(key, key, this.changeTestState));
-    };
     return (
       <div className="app__container">
-        <ListCell>
-          <CallbackContent callback={() => this.toggle()} />
-        </ListCell>
+        <CallbackContent callback={() => this.toggle()} />
         <h4>Toggle State: {this.state.toggle ? 'true' : 'false'}</h4>
         <br />
         <hr />
@@ -70,8 +59,21 @@ export default class extends React.Component {
         <br />
         <h3>List Section With Custom Cells and Callbacks</h3>
         <ListSection name="Custom ListSection" isCollapsible>
-          {renderSectionCells}
+          {
+            Object.keys(this.state.testStates).map(key =>
+              (
+                <ListCell>
+                  <p><b>{`Row ${key}`}</b></p>
+                  <button onClick={() => this.changeTestState(key)}>
+                    {'Click Me!'}
+                  </button>
+                </ListCell>
+              ))
+          }
         </ListSection>
+        <br />
+        <hr />
+        <br />
       </div>
     );
   }

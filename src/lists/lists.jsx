@@ -84,6 +84,13 @@ ListSectionHeader.propTypes = {
 };
 
 // TODO: Consider using <ul> & <li>
+// TODO: This could probably just as easily made into a functional component
+//          - The state might as well be managed by List?
+// TODO: There should be a custom render/data structure option like in React Native
+//      - This means, like in semiotic, providing the data source, and...
+//      - Either an accessor string, or a function that returns the cell's contents...
+//          from the datasource that's delivered
+//      - This should be the expected behavior, decided on by if Children are given
 export class ListSection extends React.Component {
   constructor(props) {
     super(props);
@@ -127,3 +134,5 @@ ListSection.propTypes = {
   ]).isRequired,
   isCollapsible: PropTypes.bool,
 };
+
+export const 
