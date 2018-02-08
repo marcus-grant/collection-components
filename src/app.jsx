@@ -3,6 +3,7 @@ import {
   DefaultListCell,
   ListCell,
   ListSection,
+  SectionedList,
 } from './lists/lists';
 
 const defCell = <DefaultListCell label="Main Text" detailLabel="Subtext" />;
@@ -42,6 +43,28 @@ export default class extends React.Component {
 
 
   render() {
+    const testSections = [
+      {
+        name: 'Cats',
+        data: [
+          'Siamese',
+          'Domestic Short-Hair',
+          'Scottish Fold',
+          'Maine Coon',
+          'Persian',
+        ],
+      },
+      {
+        name: 'Dogs',
+        data: [
+          'Corgi',
+          'Aussie',
+          'Labrador',
+          'Chihuahua',
+        ],
+      },
+    ];
+    const renderer = dataItem => <DefaultListCell label={dataItem} />;
     return (
       <div className="app__container">
         <CallbackContent callback={() => this.toggle()} />
@@ -74,6 +97,8 @@ export default class extends React.Component {
         <br />
         <hr />
         <br />
+        <h3>SectionedList Rendered Heterogenously</h3>
+        <SectionedList sections={testSections} sectionRenderer={renderer} />
       </div>
     );
   }

@@ -135,7 +135,7 @@ ListSection.propTypes = {
   isCollapsible: PropTypes.bool,
 };
 
-const ListContainer = (props) =>
+const ListContainer = props =>
   <div className="list__container">{props.children}</div>;
 
 ListContainer.propTypes = {
@@ -145,17 +145,37 @@ ListContainer.propTypes = {
   ]).isRequired,
 };
 
-const SectionFromRenderFunc = (section, renderer) => (
+// TODO: Have ListSection become smart enough to do this themselves based on
+// deterministic logic based on props
+const sectionFromRenderFunc = (data, renderer, isCollapsible) => (
   <ListSection
+    name={data.name}
+    isCollapsible={isCollapsible}
+  >
+    {renderer(data)}
+  </ListSection>
 );
 
 export const SectionedList = (props) => {
-  let list = [];
-  if (props.children) {
-    list = <ListContainer>{props.children}</ListContainer>;
-  } else {
-
+  let list = props.children;
+  // If children are given, it means rendering is being handled through JSX outside
+  // Simply wrap the children inside
+  if (!props.children) {
+    list = props.sections.map(section => (
+      sectionFromRenderFunc(
+        section.data,
+        props.sectionRenderer,
+        props.collapsableSections,
+      )
+    ));
   }
+  return <ListContainer>{list}</ListContainer>;
+};
+
+SectionedList.defaultProps = {
+  sections: undefined,
+  sectionRenderer: undefined,
+  collapsableSections: true,
 };
 
 SectionedList.propTypes = {
@@ -163,11 +183,12 @@ SectionedList.propTypes = {
     PropTypes.shape({
       data: PropTypes.array.isRequired,
       title: PropTypes.string,
-      sectionRenderer: PropTypes.func,
     }),
   ]),
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node).isRequired,
     PropTypes.node.isRequired,
   ]).isRequired,
+  sectionRenderer: PropTypes.func,
+  collapsableSections: PropTypes.bool,
 };
