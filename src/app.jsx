@@ -1,8 +1,8 @@
 import React from 'react';
 import {
   // DefaultListCell,
-  // ListCell,
-  ListCellContainer,
+  ListCell,
+  // ListCellContainer,
 } from './lists/list-cells';
 // import {
 //
@@ -24,10 +24,10 @@ export default class extends React.Component {
 
   render() {
     const composedCell = (
-      <ListCellContainer>
+      <ListCell>
         <h5>This is a h5 tag and button with event handler</h5>
         <button onClick={this.toggle}>Toggle Me!</button>
-      </ListCellContainer>
+      </ListCell>
     );
 
     const statesDisplay = (

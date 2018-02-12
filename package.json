@@ -4,15 +4,23 @@
   "description": "A set of react components that help construct complex UI's based around collections of data",
   "main": "src/index.js",
   "repository": "git@github.com:marcus-grant/collection-components.git",
-  "jest": {
-    "verbose": true
-  },
-  "scripts": {
-    "dev": "webpack-dev-server --colors",
-    "test": "jest"
-  },
   "author": "Marcus Grant <marcusfg@gmail.com>",
   "license": "MIT",
+  "scripts": {
+    "dev": "webpack-dev-server --colors",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage"
+  },
+  "jest": {
+    "verbose": true,
+    "setupFiles": [
+      "./test/jestsetup.js"
+    ],
+    "snapshotSerializers": [
+      "enzyme-to-json/serializer"
+    ]
+  },
   "dependencies": {
     "prop-types": "^15.6.0",
     "react": "^16.2.0",
@@ -38,6 +46,7 @@
     "eslint-plugin-react": "^7.6.1",
     "extract-text-webpack-plugin": "^3.0.2",
     "html-webpack-plugin": "^2.30.1",
+    "identity-obj-proxy": "^3.0.0",
     "jest": "^22.2.2",
     "jest-cli": "^22.2.2",
     "jest-enzyme": "^4.2.0",
