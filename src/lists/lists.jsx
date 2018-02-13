@@ -3,14 +3,11 @@ import PropTypes from 'prop-types';
 
 import './lists.scss';
 
-const propTypeChildren = PropTypes.oneOfType([
-  PropTypes.arrayOf(PropTypes.node).isRequired,
-  PropTypes.node.isRequired,
-]);
+const wrap = (className, children) => <div className={className}>{children}</div>;
 
 const listClass = 'list__container';
 
-const wrapList = list => (<div className={listClass}>{list}</div>);
+const wrapList = list => wrap(listClass, list);
 
 // Consider changing from <div>s to <li>s
 // Also consider turning each rendering mode into its own function or component
@@ -18,11 +15,22 @@ const wrapList = list => (<div className={listClass}>{list}</div>);
 // ^== this also means that a div with "content" class should be inside a <li>
 export const FlatList = (props) => {
   let list = props.children;
-  if (!props.children) {
+  if (!list) {
     list = props.listData.map(cellData => props.cellRenderer(cellData));
   }
   return wrapList(list);
 };
+
+const propTypeChildren = PropTypes.oneOfType([
+  PropTypes.arrayOf(PropTypes.node).isRequired,
+  PropTypes.node.isRequired,
+]);
+
+const propTypeDataArray = PropTypes.arrayOf(PropTypes.oneOfType([
+  PropTypes.object,
+  PropTypes.string,
+  PropTypes.number,
+]));
 
 FlatList.defaultProps = {
   children: undefined,
@@ -33,17 +41,33 @@ FlatList.defaultProps = {
 FlatList.propTypes = {
   children: propTypeChildren,
   cellRenderer: PropTypes.func,
-  listData: PropTypes.arrayOf(PropTypes.oneOfType([
-    PropTypes.object,
-    PropTypes.string,
-    PropTypes.number,
-  ])),
+  listData: propTypeDataArray,
 };
 
+const sectionClass = 'list-section__container';
 
-// export const SectionList = (props) => {
-//
-// };
+const wrapListSection = section => wrap(sectionClass, section);
+
+export const ListSection = (props) => {
+  let section = props.children;
+  if (!section) {
+    section = [];
+    section.push(props.headerRenderer(props.sectionData));
+    section.push(props.isCollapsed && props.cellRenderer(props.sectionData));
+  } return wrapListSection(section);
+};
+
+ListSection.defaultProps = {
+  isCollapsed: false,
+};
+
+ListSection.propTypes = {
+  children: propTypeChildren,
+  sectionData: propTypeDataArray,
+  cellRenderer: PropTypes.func,
+  headerRenderer: PropTypes.func,
+  isCollapsed: PropTypes.bool,
+};
 
 
 // TODO: Consider using <ul> & <li>
