@@ -6,6 +6,7 @@ import {
 } from './lists/list-cells';
 import {
   FlatList,
+  ListSection,
 } from './lists/lists';
 
 export default class extends React.Component {
@@ -13,9 +14,11 @@ export default class extends React.Component {
     super(props);
     this.toggle = this.toggle.bind(this);
     this.collapseTestHeader = this.collapseTestHeader.bind(this);
+    this.collapseSingleSection = this.collapseSingleSection.bind(this);
     this.state = {
       singleToggle: false,
       defaultHeaderIsCollapsed: false,
+      singleSectionIsCollapsed: false,
     };
   }
 
@@ -27,6 +30,10 @@ export default class extends React.Component {
   collapseTestHeader() {
     // this.setState(prev => ({ defaultHeaderIsCollapsed: !prev }));
     this.setState({ defaultHeaderIsCollapsed: !this.state.defaultHeaderIsCollapsed });
+  }
+
+  collapseSingleSection() {
+    this.setState({ singleSectionIsCollapsed: !this.state.singleSectionIsCollapsed });
   }
 
   render() {
@@ -42,6 +49,8 @@ export default class extends React.Component {
       <button onClick={this.toggle}>Toggle Me!</button>,
     ];
 
+    const composedHeader = <HeaderCell>{composedHeaderContent}</HeaderCell>;
+
     const defaultCollapseHeader = (
       <DefaultCollapsibleHeaderCell
         text="This is the template for a collapsible cell"
@@ -50,12 +59,30 @@ export default class extends React.Component {
       />
     );
 
-    const composedHeader = <HeaderCell>{composedHeaderContent}</HeaderCell>;
-
     const flatList = (
       <FlatList
         listData={['A', 'B', 'C'].map(x => ({ title: x }))}
         cellRenderer={x => <ListCell><p><b>{x.title}</b></p></ListCell>}
+      />
+    );
+
+    const listSection = (
+      <ListSection
+        isCollapsed={this.state.singleSectionIsCollapsed}
+        sectionData={{ section: 'A Section', data: ['A', 'B', 'C'] }}
+        headerRenderer={sectionData => (
+          <DefaultCollapsibleHeaderCell
+            text={sectionData.section}
+            isCollapsed={this.state.singleSectionIsCollapsed}
+            onClick={this.collapseSingleSection}
+          />
+        )}
+        cellRenderer={sectionData => (
+          <FlatList
+            listData={sectionData.data}
+            cellRenderer={x => <ListCell><p><b>{x}</b></p></ListCell>}
+          />
+        )}
       />
     );
 
@@ -73,6 +100,7 @@ export default class extends React.Component {
         jsx: defaultCollapseHeader,
       },
       { title: 'A FlatList with render function', jsx: flatList },
+      { title: 'A Single ListSection with data rendering composed of a FlatList & HeaderCell', jsx: listSection },
       { title: 'Current Testing States:', jsx: statesDisplay },
     ];
 
