@@ -1,8 +1,8 @@
 import React from 'react';
 import {
-  // DefaultListCell,
   ListCell,
-  // ListCellContainer,
+  HeaderCell,
+  DefaultCollapsibleHeaderCell,
 } from './lists/list-cells';
 // import {
 //
@@ -12,14 +12,21 @@ export default class extends React.Component {
   constructor(props) {
     super(props);
     this.toggle = this.toggle.bind(this);
+    this.collapseTestHeader = this.collapseTestHeader.bind(this);
     this.state = {
       singleToggle: false,
+      defaultHeaderIsCollapsed: false,
     };
   }
 
   toggle() {
     const newState = !this.state.singleToggle;
     this.setState({ singleToggle: newState });
+  }
+
+  collapseTestHeader() {
+    // this.setState(prev => ({ defaultHeaderIsCollapsed: !prev }));
+    this.setState({ defaultHeaderIsCollapsed: !this.state.defaultHeaderIsCollapsed });
   }
 
   render() {
@@ -30,6 +37,21 @@ export default class extends React.Component {
       </ListCell>
     );
 
+    const composedHeaderContent = [
+      <h5>Custom HeaderCell Content, also with an event handler</h5>,
+      <button onClick={this.toggle}>Toggle Me!</button>,
+    ];
+
+    const defaultCollapseHeader = (
+      <DefaultCollapsibleHeaderCell
+        text="This is the template for a collapsible cell"
+        isCollapsed={this.state.defaultHeaderIsCollapsed}
+        onClick={this.collapseTestHeader}
+      />
+    );
+
+    const composedHeader = <HeaderCell>{composedHeaderContent}</HeaderCell>;
+
     const statesDisplay = (
       <div className="test-states__container">
         <h5>{`singleToggle: ${this.state.singleToggle ? 'true' : 'false'}`}</h5>
@@ -37,7 +59,12 @@ export default class extends React.Component {
     );
 
     const renderingArray = [
-      { title: 'A Composed Cell using ListCellContainer', jsx: composedCell },
+      { title: 'A Composed Cell Wrapped in ListCell', jsx: composedCell },
+      { title: 'A Composed Cell Wrapped in HeaderCell', jsx: composedHeader },
+      {
+        title: 'DefaultCollapsibleHeaderCell, a template header',
+        jsx: defaultCollapseHeader,
+      },
       { title: 'Current Testing States:', jsx: statesDisplay },
     ];
 

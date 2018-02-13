@@ -11,25 +11,16 @@ $indicator-color: #00f;
   align-items: center;
 }
 
-.list-cell__container--header {
+.header-cell__container {
   @extend .list-cell__container;
   background: GreenYellow;
+
 }
 
-.list-cell__label {
-  background: Orange;
+.header-cell__text {
 }
 
-.list-cell__label--detail {
-  background: PaleVioletRed;
-}
-
-.list-section__header-button {
-  width: 100%;
-  border: 1px;
-  border-radius: $button-radius;
-  box-shadow: none;
-  font-weight: 600;
+.header-cell__text--detail {
 }
 
 .list-section__collapse-indicator {
