@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import './list.scss';
+import './list-cells.scss';
 
 const cellClass = 'list-cell__container';
 const headerCellClass = 'header-cell__container';

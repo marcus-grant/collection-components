@@ -1,0 +1,8 @@
+@import "../global-styles/_flat-ui-de.scss";
+
+.list__container {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: flex-start;
+  align-items: stretch;
+}

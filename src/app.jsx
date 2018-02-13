@@ -4,9 +4,9 @@ import {
   HeaderCell,
   DefaultCollapsibleHeaderCell,
 } from './lists/list-cells';
-// import {
-//
-// } from './lists/lists';
+import {
+  FlatList,
+} from './lists/lists';
 
 export default class extends React.Component {
   constructor(props) {
@@ -52,6 +52,13 @@ export default class extends React.Component {
 
     const composedHeader = <HeaderCell>{composedHeaderContent}</HeaderCell>;
 
+    const flatList = (
+      <FlatList
+        listData={['A', 'B', 'C'].map(x => ({ title: x }))}
+        cellRenderer={x => <ListCell><p><b>{x.title}</b></p></ListCell>}
+      />
+    );
+
     const statesDisplay = (
       <div className="test-states__container">
         <h5>{`singleToggle: ${this.state.singleToggle ? 'true' : 'false'}`}</h5>
@@ -65,6 +72,7 @@ export default class extends React.Component {
         title: 'DefaultCollapsibleHeaderCell, a template header',
         jsx: defaultCollapseHeader,
       },
+      { title: 'A FlatList with render function', jsx: flatList },
       { title: 'Current Testing States:', jsx: statesDisplay },
     ];
 

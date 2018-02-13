@@ -1,20 +1,47 @@
-@import "../partial-styles/_variables.scss";
+@import "../global-styles/_variables.scss";
+@import "../global-styles/_flat-ui-de.scss";
+
+$red: $desire;
+$red-bright: $fusion-red;
+$orange: $beniukon-bronze;
+$orange-bright: $orange-hibiscus;
+$yellow: $nyc-taxi;
+$yellow-bright: $flirtatious;
+$green: $algal-fuel;
+$green-bright: $reptile-green;
+$teal: $turquoise-topaz;
+$teal-bright: $maximum-blue-green;
+$blue: $boyzone;
+$blue-bright: $high-blue;
+$indigo: $royal-blue;
+$indigo-bright: $c64-ntsc;
+$purple: $gloomy-purple;
+$purple-bright: $lighter-purple;
+$silver: $innuendo;
+$silver-bright: $twinkle-blue;
+$navy: $blue-horizon;
+$navy-bright: $blue-grey;
 
 $indicator-size: 8px;
-$indicator-color: #00f;
+$indicator-color: $silver-bright;
 
 .list-cell__container {
   border: 1px solid nth($grey, 9);
-  background: OrangeRed;
+  background: $yellow;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  color: nth($grey, 1);
 }
 
 .header-cell__container {
   @extend .list-cell__container;
-  background: GreenYellow;
+  background: $red-bright;
 
+}
+
+:focus {
+  outline: 0px solid red;
 }
 
 .header-cell__text {
