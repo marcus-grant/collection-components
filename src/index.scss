@@ -1,5 +1,5 @@
 /* Entry point for SASS, only put imports in order here */
-@import "partial-styles/_variables.scss";
+@import "global-styles/_variables.scss";
 // @import "sass/_workspace.scss";
 // @import "sass/_dropdown-controls.scss";
 
@@ -10,6 +10,7 @@ html {
 body {
   background-color: nth($grey, 1);
   font-family: sans-serif;
+  font-color: nth($grey, 9);
 }
 
 h1 { font-size: 3.2rem; font-style: bold; }
