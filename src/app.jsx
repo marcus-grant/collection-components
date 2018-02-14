@@ -68,13 +68,12 @@ export default class extends React.Component {
 
     const listSection = (
       <ListSection
-        isCollapsed={this.state.singleSectionIsCollapsed}
         sectionData={{ section: 'A Section', data: ['A', 'B', 'C'] }}
-        headerRenderer={sectionData => (
+        headerRenderer={(sectionData, isCollapsed, onClick) => (
           <DefaultCollapsibleHeaderCell
             text={sectionData.section}
-            isCollapsed={this.state.singleSectionIsCollapsed}
-            onClick={this.collapseSingleSection}
+            isCollapsed={isCollapsed}
+            onClick={onClick}
           />
         )}
         cellRenderer={sectionData => (
