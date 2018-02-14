@@ -37,27 +37,27 @@ export default class extends React.Component {
   }
 
   render() {
-    const composedCell = (
-      <ListCell>
-        <h5>This is a h5 tag and button with event handler</h5>
-        <button onClick={this.toggle}>Toggle Me!</button>
-      </ListCell>
-    );
-
-    const composedHeaderContent = [
-      <h5>Custom HeaderCell Content, also with an event handler</h5>,
-      <button onClick={this.toggle}>Toggle Me!</button>,
-    ];
-
-    const composedHeader = <HeaderCell>{composedHeaderContent}</HeaderCell>;
-
-    const defaultCollapseHeader = (
-      <DefaultCollapsibleHeaderCell
-        text="This is the template for a collapsible cell"
-        isCollapsed={this.state.defaultHeaderIsCollapsed}
-        onClick={this.collapseTestHeader}
-      />
-    );
+    // const composedCell = (
+    //   <ListCell>
+    //     <h5>This is a h5 tag and button with event handler</h5>
+    //     <button onClick={this.toggle}>Toggle Me!</button>
+    //   </ListCell>
+    // );
+    //
+    // const composedHeaderContent = [
+    //   <h5>Custom HeaderCell Content, also with an event handler</h5>,
+    //   <button onClick={this.toggle}>Toggle Me!</button>,
+    // ];
+    //
+    // const composedHeader = <HeaderCell>{composedHeaderContent}</HeaderCell>;
+    //
+    // const defaultCollapseHeader = (
+    //   <DefaultCollapsibleHeaderCell
+    //     text="This is the template for a collapsible cell"
+    //     isCollapsed={this.state.defaultHeaderIsCollapsed}
+    //     onClick={this.collapseTestHeader}
+    //   />
+    // );
 
     const flatList = (
       <FlatList
@@ -92,12 +92,12 @@ export default class extends React.Component {
     );
 
     const renderingArray = [
-      { title: 'A Composed Cell Wrapped in ListCell', jsx: composedCell },
-      { title: 'A Composed Cell Wrapped in HeaderCell', jsx: composedHeader },
-      {
-        title: 'DefaultCollapsibleHeaderCell, a template header',
-        jsx: defaultCollapseHeader,
-      },
+      // { title: 'A Composed Cell Wrapped in ListCell', jsx: composedCell },
+      // { title: 'A Composed Cell Wrapped in HeaderCell', jsx: composedHeader },
+      // {
+      //   title: 'DefaultCollapsibleHeaderCell, a template header',
+      //   jsx: defaultCollapseHeader,
+      // },
       { title: 'A FlatList with render function', jsx: flatList },
       { title: 'A Single ListSection with data rendering composed of a FlatList & HeaderCell', jsx: listSection },
       { title: 'Current Testing States:', jsx: statesDisplay },
