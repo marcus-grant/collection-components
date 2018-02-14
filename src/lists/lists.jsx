@@ -26,11 +26,13 @@ const propTypeChildren = PropTypes.oneOfType([
   PropTypes.node.isRequired,
 ]);
 
-const propTypeDataArray = PropTypes.arrayOf(PropTypes.oneOfType([
+const propTypeListDataItem = PropTypes.oneOfType([
   PropTypes.object,
   PropTypes.string,
   PropTypes.number,
-]));
+]);
+
+const propTypeDataArray = PropTypes.arrayOf(propTypeListDataItem);
 
 FlatList.defaultProps = {
   children: undefined,
@@ -48,25 +50,57 @@ const sectionClass = 'list-section__container';
 
 const wrapListSection = section => wrap(sectionClass, section);
 
-export const ListSection = (props) => {
-  let section = props.children;
-  if (!section) {
-    section = [];
-    section.push(props.headerRenderer(props.sectionData));
-    section.push(props.isCollapsed && props.cellRenderer(props.sectionData));
-  } return wrapListSection(section);
-};
+// export const ListSection = (props) => {
+//   let section = props.children;
+//   if (!section) {
+//     section = [];
+//     section.push(props.headerRenderer(props.sectionData));
+//     section.push(props.isCollapsed && props.cellRenderer(props.sectionData));
+//   } return wrapListSection(section);
+// };
+
+export class ListSection extends React.Component {
+  constructor(props) {
+    super(props);
+    this.toggleSection = this.toggleSection.bind(this);
+    this.state = {
+      isCollapsed: false,
+    };
+  }
+
+  toggleSection() {
+    this.setState(prev => ({
+      isCollapsed: this.props.isCollapsible && !prev.isCollapsed,
+    }));
+  }
+
+  render() {
+    return wrapListSection(!this.props.children &&
+      [
+        this.props.headerRenderer(
+          this.props.sectionData,
+          this.state.isCollapsed,
+          this.toggleSection,
+        ),
+        !this.state.isCollapsed && this.props.cellRenderer(this.props.sectionData),
+      ]);
+  }
+}
 
 ListSection.defaultProps = {
-  isCollapsed: false,
+  children: undefined,
+  sectionData: undefined,
+  cellRenderer: undefined,
+  headerRenderer: undefined,
+  isCollapsible: true,
 };
 
 ListSection.propTypes = {
   children: propTypeChildren,
-  sectionData: propTypeDataArray,
+  sectionData: propTypeListDataItem,
   cellRenderer: PropTypes.func,
   headerRenderer: PropTypes.func,
-  isCollapsed: PropTypes.bool,
+  isCollapsible: PropTypes.bool,
 };
 
 
