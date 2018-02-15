@@ -16,7 +16,7 @@ const wrapList = list => wrap(listClass, list);
 export const FlatList = (props) => {
   let list = props.children;
   if (!list) {
-    list = props.listData.map(cellData => props.cellRenderer(cellData));
+    list = props.listData.map((cellData, key) => props.cellRenderer(cellData, key));
   }
   return wrapList(list);
 };
@@ -59,6 +59,7 @@ const wrapListSection = section => wrap(sectionClass, section);
 //   } return wrapListSection(section);
 // };
 
+// TODO: Consider adding an accessor function to fetch an array from sectionData
 export class ListSection extends React.Component {
   constructor(props) {
     super(props);
@@ -82,7 +83,12 @@ export class ListSection extends React.Component {
           this.state.isCollapsed,
           this.toggleSection,
         ),
-        !this.state.isCollapsed && this.props.cellRenderer(this.props.sectionData),
+        !this.state.isCollapsed && (
+          <FlatList
+            listData={this.props.sectionData[this.props.dataAccessor]}
+            cellRenderer={this.props.cellRenderer}
+          />
+        ),
       ]);
   }
 }
@@ -93,6 +99,7 @@ ListSection.defaultProps = {
   cellRenderer: undefined,
   headerRenderer: undefined,
   isCollapsible: true,
+  dataAccessor: 'data',
 };
 
 ListSection.propTypes = {
@@ -101,6 +108,38 @@ ListSection.propTypes = {
   cellRenderer: PropTypes.func,
   headerRenderer: PropTypes.func,
   isCollapsible: PropTypes.bool,
+  dataAccessor: PropTypes.string,
+};
+
+const sectionListClass = 'section-list__container';
+
+const wrapSectionList = list => wrap(sectionListClass, list);
+
+export const SectionList = props => wrapSectionList((!props.children && (
+  props.sectionsData.map(section => (
+    <ListSection
+      sectionData={section}
+      headerRenderer={props.headerRenderer}
+      cellRenderer={props.cellRenderer}
+      dataAccessor={props.dataAccessor}
+    />
+  ))
+)));
+
+SectionList.defaultProps = {
+  children: undefined,
+  sectionsData: undefined,
+  headerRenderer: undefined,
+  cellRenderer: undefined,
+  dataAccessor: 'data',
+};
+
+SectionList.propTypes = {
+  children: propTypeChildren,
+  sectionsData: propTypeDataArray,
+  headerRenderer: PropTypes.func,
+  cellRenderer: PropTypes.func,
+  dataAccessor: PropTypes.string,
 };
 
 
