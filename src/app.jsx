@@ -7,6 +7,7 @@ import {
 import {
   FlatList,
   ListSection,
+  SectionList,
 } from './lists/lists';
 
 export default class extends React.Component {
@@ -37,27 +38,27 @@ export default class extends React.Component {
   }
 
   render() {
-    const composedCell = (
-      <ListCell>
-        <h5>This is a h5 tag and button with event handler</h5>
-        <button onClick={this.toggle}>Toggle Me!</button>
-      </ListCell>
-    );
-
-    const composedHeaderContent = [
-      <h5>Custom HeaderCell Content, also with an event handler</h5>,
-      <button onClick={this.toggle}>Toggle Me!</button>,
-    ];
-
-    const composedHeader = <HeaderCell>{composedHeaderContent}</HeaderCell>;
-
-    const defaultCollapseHeader = (
-      <DefaultCollapsibleHeaderCell
-        text="This is the template for a collapsible cell"
-        isCollapsed={this.state.defaultHeaderIsCollapsed}
-        onClick={this.collapseTestHeader}
-      />
-    );
+    // const composedCell = (
+    //   <ListCell>
+    //     <h5>This is a h5 tag and button with event handler</h5>
+    //     <button onClick={this.toggle}>Toggle Me!</button>
+    //   </ListCell>
+    // );
+    //
+    // const composedHeaderContent = [
+    //   <h5>Custom HeaderCell Content, also with an event handler</h5>,
+    //   <button onClick={this.toggle}>Toggle Me!</button>,
+    // ];
+    //
+    // const composedHeader = <HeaderCell>{composedHeaderContent}</HeaderCell>;
+    //
+    // const defaultCollapseHeader = (
+    //   <DefaultCollapsibleHeaderCell
+    //     text="This is the template for a collapsible cell"
+    //     isCollapsed={this.state.defaultHeaderIsCollapsed}
+    //     onClick={this.collapseTestHeader}
+    //   />
+    // );
 
     const flatList = (
       <FlatList
@@ -76,12 +77,29 @@ export default class extends React.Component {
             onClick={onClick}
           />
         )}
-        cellRenderer={sectionData => (
-          <FlatList
-            listData={sectionData.data}
-            cellRenderer={x => <ListCell><p><b>{x}</b></p></ListCell>}
+        dataAccessor="data"
+        cellRenderer={x => <ListCell><p><b>{x}</b></p></ListCell>}
+      />
+    );
+
+    const sectionListData = [
+      { title: 'Triangle', nums: [1, 3, 6, 10, 15, 21, 28] },
+      { title: 'Fibonacci', nums: [1, 1, 2, 3, 5, 8, 13] },
+      { title: 'Prime', nums: [1, 2, 3, 5, 7, 11, 13] },
+    ];
+
+    const sectionList = (
+      <SectionList
+        sectionsData={sectionListData}
+        headerRenderer={(sectionData, isCollapsed, onClick) => (
+          <DefaultCollapsibleHeaderCell
+            text={sectionData.title}
+            isCollapsed={isCollapsed}
+            onClick={onClick}
           />
         )}
+        dataAccessor="nums"
+        cellRenderer={x => <ListCell><p><b>{x}</b></p></ListCell>}
       />
     );
 
@@ -92,19 +110,20 @@ export default class extends React.Component {
     );
 
     const renderingArray = [
-      { title: 'A Composed Cell Wrapped in ListCell', jsx: composedCell },
-      { title: 'A Composed Cell Wrapped in HeaderCell', jsx: composedHeader },
-      {
-        title: 'DefaultCollapsibleHeaderCell, a template header',
-        jsx: defaultCollapseHeader,
-      },
-      { title: 'A FlatList with render function', jsx: flatList },
-      { title: 'A Single ListSection with data rendering composed of a FlatList & HeaderCell', jsx: listSection },
-      { title: 'Current Testing States:', jsx: statesDisplay },
+      // { title: 'A Composed Cell Wrapped in ListCell', jsx: composedCell },
+      // { title: 'A Composed Cell Wrapped in HeaderCell', jsx: composedHeader },
+      // {
+      //   title: 'DefaultCollapsibleHeaderCell, a template header',
+      //   jsx: defaultCollapseHeader,
+      // },
+      { title: 'A FlatList with render function', jsx: flatList, key: 123 },
+      { title: 'A Single ListSection with data rendering composed of a FlatList & HeaderCell', jsx: listSection, key: 944 },
+      { title: 'A SectionList', jsx: sectionList, key: 1923 },
+      { title: 'Current Testing States:', jsx: statesDisplay, key: 69 },
     ];
 
     const renderArrayItem = item => (
-      <div className="test-group__container">
+      <div key={item.key} className="test-group__container">
         <h4>{item.title}</h4>
         {item.jsx}
         <br />
