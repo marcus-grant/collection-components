@@ -4,12 +4,12 @@ import {
   TriIndicator,
 } from './indicators';
 
+import './cell-accessories.scss';
+
 const childrenPropType = PropTypes.oneOfType([
   PropTypes.arrayOf(PropTypes.node),
   PropTypes.node,
 ]);
-
-const accessoryClass = 'cell-accessory__container';
 
 
 const wrap = (className, children, onPress, styles) => (
@@ -18,12 +18,15 @@ const wrap = (className, children, onPress, styles) => (
     onClick={onPress}
     onKeyPress={onPress}
     style={styles}
-    role={onPress && 'menuItem'}
+    role="menuItem"
     tabIndex={onPress && 0}
   >
     {children}
   </div>
 );
+
+// TODO: If needed add Block prefix and/or Mod suffix for className
+const accessoryClass = 'cell-accessory__container';
 
 const wrapAccessory = (children, onPress, styles) =>
   wrap(accessoryClass, children, onPress, styles);

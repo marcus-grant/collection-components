@@ -9,7 +9,7 @@ const wrap = (className, children, onPress, styles) => (
     onClick={onPress}
     onKeyPress={onPress}
     style={styles}
-    role={onPress && 'menuItem'}
+    role="menuItem"
     tabIndex={onPress && 0}
   >
     {children}

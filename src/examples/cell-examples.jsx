@@ -20,14 +20,18 @@ export default class extends React.Component {
   constructor(props) {
     super(props);
     this.cycleAccessory = this.cycleAccessory.bind(this);
+    this.toggle = this.toggle.bind(this);
     this.state = {
       accType: 0,
+      toggle: false,
     };
   }
 
+  toggle() { this.setState(prev => ({ toggle: !prev.toggle })); }
+
   cycleAccessory() {
-    this.setState(a => ({
-      accType: (a.accType === accessoryTypes.length - 1 ? 0 : a.accType + 1),
+    this.setState(prev => ({
+      accType: (prev.accType === accessoryTypes.length - 1 ? 0 : prev.accType + 1),
     }));
   }
 
@@ -38,11 +42,11 @@ export default class extends React.Component {
       justifyContent: 'space-between',
     };
 
-    const itemStyles = {
-      display: 'flex',
-      flexFlow: 'row wrap',
-      alignItems: 'center',
-    };
+    // const itemStyles = {
+    //   display: 'flex',
+    //   flexFlow: 'row wrap',
+    //   alignItems: 'center',
+    // };
 
     const cyclingAccessory = (
       <CellAccessory
@@ -76,6 +80,17 @@ export default class extends React.Component {
       <ListCell text={'cell with text passed as "props.text"'} />
     );
 
+    const listCellOnPressProp = (
+      <ListCell text="Click Me!" onPress={this.toggle} />
+    );
+
+    const statesDisplay = (
+      <div>
+        <h6>toggle: </h6>
+        <p>{this.state.toggle ? 'on' : 'off'}</p>
+      </div>
+    );
+
     const testSectionsArray = [
       {
         text: 'A cycling Accessory (Every type can be clicked through)',
@@ -100,6 +115,14 @@ export default class extends React.Component {
       {
         text: '<ListCell> can have text passed as a prop',
         jsx: listCellWithText,
+      },
+      {
+        text: '<ListCell> can have a event handler sent as prop "onPress"',
+        jsx: listCellOnPressProp,
+      },
+      {
+        text: 'Testing States:',
+        jsx: statesDisplay,
       },
     ];
 

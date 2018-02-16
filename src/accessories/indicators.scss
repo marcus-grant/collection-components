@@ -10,11 +10,11 @@ $indicator-color: $silver;
   width: 32px;
 }
 
+// TODO: Add margin based on horiz-vs-vert to deal with base = 2 * h
 .tri-indicator {
   width: 0;
   height: 0;
   margin: $indicator-size / 1.61;
-  border-left: $indicator-size solid transparent;
 }
 
 .tri-indicator--vert-axis-constraints {
