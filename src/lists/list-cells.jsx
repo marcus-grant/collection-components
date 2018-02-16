@@ -3,22 +3,87 @@ import PropTypes from 'prop-types';
 
 import './list-cells.scss';
 
+const wrap = (className, children, onPress, styles) => (
+  <div
+    className={className}
+    onClick={onPress}
+    onKeyPress={onPress}
+    style={styles}
+    role={onPress && 'menuItem'}
+    tabIndex={onPress && 0}
+  >
+    {children}
+  </div>
+);
+
+/*
+ * Basic Components
+ * TODO: Move to own module with own stylesheet
+ */
+// TODO: Move this into its own file eventually
+const TEXT_CLASS_ELEMENT = 'text';
+
+// TODO: <p> & <div> content should be of related class but distinct
+export const Text = (props) => {
+  const classBlock = props.classBlock ? `${props.classBlock}__` : '';
+  const classElement = TEXT_CLASS_ELEMENT;
+  const classMod = props.classModifier ? `${props.classModifier}` : '';
+  const classString = `${classBlock}${classElement}${classMod}`;
+  const text = props.children || props.text;
+  return <div className={classString}><p>{text}</p></div>;
+};
+
+Text.defaultProps = {
+  children: undefined,
+  text: undefined,
+  classBlock: undefined,
+  classModifier: undefined,
+};
+
+Text.propTypes = {
+  children: PropTypes.string,
+  text: PropTypes.string,
+  classBlock: PropTypes.string,
+  classModifier: PropTypes.string,
+};
+
+
 const cellClass = 'list-cell__container';
 const headerCellClass = 'header-cell__container';
-
 export const cellContentClass = 'cell-content__container';
+
+
+const wrapCell = (children, onPress, styles) =>
+  wrap(cellClass, children, onPress, styles);
 
 const childrenPropType = PropTypes.oneOfType([
   PropTypes.arrayOf(PropTypes.node),
   PropTypes.node,
 ]);
 
-export const ListCell = props =>
-  <div className={cellClass}>{props.children}</div>;
+// TODO: Handle the leftAccessory, now it doesn't render it at all
+// TODO: Handle secondary label
+// TODO: Convert to <li>
+export const ListCell = props => wrapCell(
+  [ // The child nodes to wrap
+    (props.children || <Text classBlock="list-cell">This is a ListCell with text</Text>),
+  ],
+  props.onPress, // The even handler callback incase this is listening to that
+  props.styles, // Inline styles if they are desired
+);
+
+ListCell.defaultProps = {
+  children: undefined,
+  text: undefined,
+  classPrefix: '',
+};
 
 ListCell.propTypes = {
-  children: childrenPropType.isRequired,
+  children: childrenPropType,
+  text: PropTypes.string,
+  classPrefix: childrenPropType.string,
 };
+
 
 export const HeaderCell = props =>
   <div className={headerCellClass}>{props.children}</div>;
@@ -62,86 +127,3 @@ DefaultCollapsibleHeaderCell.propTypes = {
   isCollapsed: PropTypes.bool.isRequired,
   onClick: PropTypes.func.isRequired,
 };
-
-
-/*
- * Old - Examine each of these definitions and turn them into new tested definitions
- *
-const ListCellLabel = text =>
-  <p className="list-cell__label">{text}</p>;
-const ListCellDetailLabel = text =>
-  <p className="list-cell__label--detail">{text}</p>;
-
-// TODO: Consider an accessory ie a chevron or another composition of components
-export const DefaultListCell = props => (
-  <div className={cellStyle}>
-    <div className="list-cell__content">
-      {props.label && ListCellLabel(props.label)}
-      {props.detailLabel && ListCellDetailLabel(props.detailLabel)}
-    </div>
-  </div>
-);
-
-DefaultListCell.defaultProps = {
-  label: undefined,
-  detailLabel: undefined,
-};
-
-DefaultListCell.propTypes = {
-  label: PropTypes.string,
-  detailLabel: PropTypes.string,
-};
-
-export const ListCell = (props) => {
-  if (props.children) {
-    return (
-      <div
-        className={props.customClass}
-        onClick={props.handleClick}
-      >{props.children}
-      </div>
-    );
-  }
-  const { label, detailLabel } = props;
-  const defaultProps = { label, detailLabel };
-  return <DefaultListCell {...defaultProps} />;
-};
-
-ListCell.defaultProps = {
-  children: undefined,
-  label: undefined,
-  detailLabel: undefined,
-  customClass: cellStyle,
-  handleClick: undefined,
-};
-
-ListCell.propTypes = {
-  children: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.node).isRequired,
-    PropTypes.node.isRequired,
-  ]),
-  label: PropTypes.string,
-  detailLabel: PropTypes.string,
-  customClass: PropTypes.string,
-  handleClick: PropTypes.func,
-};
-
-const ListSectionHeader = props => (
-  <ListCell customClass={`${cellStyle}--header`} handleClick={props.handleClick}>
-    <p><b>{props.name}</b></p>
-    <div className={`collapse-indicator--${props.isCollapsed ? 'down' : 'up'}`} />
-  </ListCell>
-);
-
-// Not specifying a handleClick callback just makes the header ignore clicks
-ListSectionHeader.defaultProps = {
-  handleClick: undefined,
-  isCollapsed: false,
-};
-
-ListSectionHeader.propTypes = {
-  name: PropTypes.string.isRequired,
-  isCollapsed: PropTypes.bool,
-  handleClick: PropTypes.func,
-};
-*/

@@ -1,8 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './app';
-// import Hello from './hello';
+// import Hello from './examples/hello';
+// import AccessoriesDemo from './examples/list-cells-accessories';
+import CellsDemo from './examples/cell-examples';
+// import ListsDemo from './examples/list-examples';
 
-// const app = <Hello />;
-const app = <App />;
-ReactDOM.render(app, document.getElementById('react-root'));
+const demos = {
+  // hello: <Hello />,
+  // accessories: <AccessoriesDemo />,
+  cells: <CellsDemo />,
+  // lists: <ListsDemo />,
+};
+
+ReactDOM.render(demos.cells, document.getElementById('react-root'));

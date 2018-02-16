@@ -1,0 +1,50 @@
+// All base style rules for indicator components
+// Import global variables
+@import "../global-styles/_variables.scss";
+
+// Variables
+$indicator-size: 8px;
+$indicator-color: $silver;
+
+.list-section__collapse-indicator {
+  width: 32px;
+}
+
+.tri-indicator {
+  width: 0;
+  height: 0;
+  margin: $indicator-size / 1.61;
+  border-left: $indicator-size solid transparent;
+}
+
+.tri-indicator--vert-axis-constraints {
+  @extend .tri-indicator;
+  border-left: $indicator-size solid transparent;
+  border-right: $indicator-size solid transparent;
+}
+
+.tri-indicator--horiz-axis-constraints {
+  @extend .tri-indicator;
+  border-bottom: $indicator-size solid transparent;
+  border-top: $indicator-size solid transparent;
+}
+
+.tri-indicator--up {
+  @extend .tri-indicator--vert-axis-constraints;
+  border-bottom: $indicator-size solid $indicator-color;
+}
+
+.tri-indicator--dn {
+  @extend .tri-indicator--vert-axis-constraints;
+  border-top: $indicator-size solid $indicator-color;
+}
+
+.tri-indicator--lt {
+  @extend .tri-indicator--horiz-axis-constraints;
+  border-right: $indicator-size solid $indicator-color;
+}
+
+.tri-indicator--rt {
+  @extend .tri-indicator--horiz-axis-constraints;
+  border-left: $indicator-size solid $indicator-color;
+}
