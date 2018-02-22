@@ -5,7 +5,12 @@ import CellAccessory from '../accessories/cell-accessories';
 
 import './list-cells.scss';
 
-const wrap = (className, children, onPress, styles) => (
+const childrenPropType = PropTypes.oneOfType([
+  PropTypes.arrayOf(PropTypes.node),
+  PropTypes.node,
+]);
+
+const wrapCell = (className, children, onPress, styles) => (
   <div
     className={className}
     onClick={onPress}
@@ -19,26 +24,8 @@ const wrap = (className, children, onPress, styles) => (
 );
 
 
-const cellClass = 'list-cell__container';
-const headerCellClass = 'header-cell__container';
-export const cellContentClass = 'cell-content__container';
-
-
-const wrapCell = (children, onPress, styles) =>
-  wrap(cellClass, children, onPress, styles);
-
-const childrenPropType = PropTypes.oneOfType([
-  PropTypes.arrayOf(PropTypes.node),
-  PropTypes.node,
-]);
-
-// TODO: Handle the leftAccessory, now it doesn't render it at all
-// TODO: Handle secondary label
-// TODO: Convert to <li>
-// TODO: Give semantics to change width based on min/max of text, sass or text width
-// TODO: Add detail & side text components
-// TODO: Add left accessory component
-export const ListCell = props => wrapCell(
+const Cell = props => wrapCell(
+  props.classElement, // Here is where the element name gets decided for each cell type
   [ // The child nodes to wrap
     (props.children || [
       /* PLACEHOLDER for rightAccessory */
@@ -61,68 +48,89 @@ export const ListCell = props => wrapCell(
   // props.styles, // Inline styles if they are desired
 );
 
-ListCell.defaultProps = {
-  children: undefined,
-  text: undefined,
-  onPress: undefined,
-  classPrefix: '',
-  rightAccessory: undefined,
-  rightAccessoryType: undefined,
-  rightAccessoryOnPress: undefined,
-};
-
-ListCell.propTypes = {
+const cellPropTypes = {
   children: childrenPropType,
   text: PropTypes.string,
   onPress: PropTypes.func,
-  classPrefix: childrenPropType.string,
   rightAccessory: childrenPropType,
   rightAccessoryType: PropTypes.string,
-  rightAccessoryOnPress: PropTypes.func,
-  // rightAccessoryStyles: PropTypes.object,
+  classBlock: PropTypes.string,
+  classModifier: PropTypes.string,
 };
 
-
-export const HeaderCell = props =>
-  <div className={headerCellClass}>{props.children}</div>;
-
-HeaderCell.propTypes = {
-  children: childrenPropType.isRequired,
+const cellDefaultProps = {
+  children: undefined,
+  text: undefined,
+  onPress: undefined,
+  rightAccessory: undefined,
+  rightAccessoryType: undefined,
+  classBlock: '',
+  classModifier: '',
 };
 
+Cell.defaultProps = Object.assign({ classElement: 'cell' }, cellDefaultProps);
 
-// TODO : Deprecated, needs to be recreated using the new ListCells model
-// Now we can start to create templated cells
-// Main point is that so long as the container of a cell's content ie the cell...
-// has the same component with the same className, the structure will be uniform
+Cell.propTypes = Object.assign({ classElement: PropTypes.string }, cellPropTypes);
 
-const headerCellTextClass = 'header-cell__text';
-// const headerCellDetailClass = `${headerCellTextClass}--detail`;
-const collapseSignClass = 'collapse-indicator';
-const collapseSignClassUp = `${collapseSignClass}--up`;
-const collapseSignClassDn = `${collapseSignClass}--down`;
-const collapseSignClassFromBool = isCollapsed =>
-  (isCollapsed ? collapseSignClassDn : collapseSignClassUp);
+// const cellClassElement = 'list-cell';
+// export const cellContentClass = 'cell-content__container';
 
-export const DefaultCollapsibleHeaderCell = props => (
-  <div
-    className={headerCellClass}
-    onClick={props.onClick}
-    onKeyPress={props.onClick}
-    role="menuItem"
-    tabIndex={0}
-  >
-    <p className={headerCellTextClass}><b>{props.text}</b></p>
-    <div className={collapseSignClassFromBool(props.isCollapsed)} />
-  </div>
-);
 
-DefaultCollapsibleHeaderCell.defaultProps = {
-  text: '',
-};
+// const wrapCell = (children, onPress, styles) =>
+//   wrap(cellClassElement, children, onPress, styles);
 
-DefaultCollapsibleHeaderCell.propTypes = {
-  text: PropTypes.string,
-  isCollapsed: PropTypes.bool.isRequired,
-  onClick: PropTypes.func.isRequired,
-};
+export const ListCell = props => <Cell classElement="list-cell" {...props} />;
+
+// TODO: Handle the leftAccessory, now it doesn't render it at all
+// TODO: Handle secondary label
+// TODO: Convert to <li>
+// TODO: Give semantics to change width based on min/max of text, sass or text width
+// TODO: Add detail & side text components
+// TODO: Add left accessory component
+// export const ListCell = props => wrapCell(
+//   [ // The child nodes to wrap
+//     (props.children || [
+//       [> PLACEHOLDER for rightAccessory <]
+//       <Text>{props.text}</Text>,
+//       [> PLACEHOLDER for rightText <]
+//       [> PLACEHOLDER for detailText <]
+//       (
+//      // accessories can either be rendered as a child component
+//    // OR as a standard CellAccessory by passing props
+//         props.rightAccessory ?
+//           <CellAccessory>{props.rightAccessory}</CellAccessory> :
+//           <CellAccessory
+//             type={props.rightAccessoryType}
+//             onPress={props.rightAccessoryOnPress}
+//           />
+//       ),
+//     ]),
+//   ],
+//   props.onPress, // The even handler callback incase this is listening to that
+//   // props.styles, // Inline styles if they are desired
+// );
+//
+// ListCell.defaultProps = {
+//   children: undefined,
+//   text: undefined,
+//   onPress: undefined,
+//   classPrefix: '',
+//   rightAccessory: undefined,
+//   rightAccessoryType: undefined,
+//   rightAccessoryOnPress: undefined,
+// };
+//
+// ListCell.propTypes = {
+//   children: childrenPropType,
+//   text: PropTypes.string,
+//   onPress: PropTypes.func,
+//   classPrefix: childrenPropType.string,
+//   rightAccessory: childrenPropType,
+//   rightAccessoryType: PropTypes.string,
+//   rightAccessoryOnPress: PropTypes.func,
+//   // rightAccessoryStyles: PropTypes.object,
+// };
+
+// TODO: Create a generator that creates all the similar parts of header and list cells
+// really the only difference is the 'element' part of the BEM classname selector
+export const HeaderCell = props => <Cell classElement="header-cell" {...props} />;

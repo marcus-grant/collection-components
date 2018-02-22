@@ -1,7 +1,7 @@
 import React from 'react';
 import {
   ListCell,
-//   HeaderCell,
+  HeaderCell,
 //   DefaultCollapsibleHeaderCell,
 } from '../lists/list-cells';
 import Text from '../basic/text';
@@ -92,6 +92,15 @@ export default class extends React.Component {
       />
     );
 
+    const standardHeaderCell = (
+      <HeaderCell
+        text="same as the ListCell, but classed 'header-cell'"
+        onPress={this.toggle}
+        rightAccessoryType={accessoryTypes[this.state.accType]}
+        rightAccessoryOnPress={this.cycleAccessory}
+      />
+    );
+
     const statesDisplay = (
       <div>
         <h6>toggle: </h6>
@@ -131,6 +140,10 @@ export default class extends React.Component {
       {
         text: '<ListCell> has a template acsry. & text with callbacks on both',
         jsx: listCellWithTextAccessoryTypeCallback,
+      },
+      {
+        text: '<HeaderCell> same as the standard ListCell, but classed header',
+        jsx: standardHeaderCell,
       },
       {
         text: 'Testing States:',

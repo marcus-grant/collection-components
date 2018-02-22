@@ -1,6 +1,6 @@
 @import "../global-styles/_variables.scss";
 
-.list-cell__container {
+.list-cell {
   border: 1px solid nth($grey, 9);
   background: $yellow;
   display: flex;
@@ -9,8 +9,8 @@
   color: nth($grey, 1);
 }
 
-.header-cell__container {
-  @extend .list-cell__container;
+.header-cell {
+  @extend .list-cell;
   background: $red-bright;
 
 }
