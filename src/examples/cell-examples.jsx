@@ -1,11 +1,10 @@
 import React from 'react';
 import {
-  Text,
   ListCell,
 //   HeaderCell,
 //   DefaultCollapsibleHeaderCell,
 } from '../lists/list-cells';
-import { TriIndicator } from '../accessories/indicators';
+import Text from '../basic/text';
 import CellAccessory from '../accessories/cell-accessories';
 
 const accessoryTypes = [
