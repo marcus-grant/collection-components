@@ -84,6 +84,15 @@ export default class extends React.Component {
       <ListCell text="Click Me!" onPress={this.toggle} />
     );
 
+    const listCellWithTextAccessoryTypeCallback = (
+      <ListCell
+        text="prop-based accessory & text with callbacks on both"
+        onPress={this.toggle}
+        rightAccessoryType={accessoryTypes[this.state.accType]}
+        rightAccessoryOnPress={this.cycleAccessory}
+      />
+    );
+
     const statesDisplay = (
       <div>
         <h6>toggle: </h6>
@@ -117,8 +126,12 @@ export default class extends React.Component {
         jsx: listCellWithText,
       },
       {
-        text: '<ListCell> can have a event handler sent as prop "onPress"',
+        text: '<ListCell> has a callback as prop "onPress"',
         jsx: listCellOnPressProp,
+      },
+      {
+        text: '<ListCell> has a template acsry. & text with callbacks on both',
+        jsx: listCellWithTextAccessoryTypeCallback,
       },
       {
         text: 'Testing States:',
@@ -131,7 +144,7 @@ export default class extends React.Component {
         <h3>Pattern Cells</h3>
         {testSectionsArray.map(section => (
           <div style={containerStyles}>
-            <h4>{section.text}</h4>
+            <h5>{section.text}</h5>
             {section.jsx}
             <br />
           </div>

@@ -57,7 +57,7 @@ const CellAccessory = props => (
   wrapAccessory(
     (props.children || accessoryFromString(props.type)),
     props.onPress,
-    props.styles,
+    // props.styles,
   )
 );
 
@@ -65,14 +65,14 @@ CellAccessory.defaultProps = {
   children: undefined,
   type: undefined,
   onPress: undefined,
-  styles: undefined,
+  // styles: undefined,
 };
 
 CellAccessory.propTypes = {
   children: childrenPropType,
   type: PropTypes.string,
   onPress: PropTypes.func,
-  styles: PropTypes.object,
+  // styles: PropTypes.object,
 };
 
 export default CellAccessory;

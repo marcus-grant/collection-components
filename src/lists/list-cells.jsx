@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import CellAccessory from '../accessories/cell-accessories';
 
 import './list-cells.scss';
 
@@ -64,24 +65,51 @@ const childrenPropType = PropTypes.oneOfType([
 // TODO: Handle the leftAccessory, now it doesn't render it at all
 // TODO: Handle secondary label
 // TODO: Convert to <li>
+// TODO: Give semantics to change width based on min/max of text, sass or text width
+// TODO: Add detail & side text components
+// TODO: Add left accessory component
 export const ListCell = props => wrapCell(
   [ // The child nodes to wrap
-    (props.children || <Text classBlock="list-cell">This is a ListCell with text</Text>),
+    (props.children || [
+      /* PLACEHOLDER for rightAccessory */
+      <Text classBlock="list-cell">{props.text}</Text>,
+      /* PLACEHOLDER for rightText */
+      /* PLACEHOLDER for detailText */
+      (
+      /* accessories can either be rendered as a child component
+      *  OR as a standard CellAccessory by passing props */
+        props.rightAccessory ?
+          <CellAccessory>{props.rightAccessory}</CellAccessory> :
+          <CellAccessory
+            type={props.rightAccessoryType}
+            onPress={props.rightAccessoryOnPress}
+          />
+      ),
+    ]),
   ],
   props.onPress, // The even handler callback incase this is listening to that
-  props.styles, // Inline styles if they are desired
+  // props.styles, // Inline styles if they are desired
 );
 
 ListCell.defaultProps = {
   children: undefined,
   text: undefined,
+  onPress: undefined,
   classPrefix: '',
+  rightAccessory: undefined,
+  rightAccessoryType: undefined,
+  rightAccessoryOnPress: undefined,
 };
 
 ListCell.propTypes = {
   children: childrenPropType,
   text: PropTypes.string,
+  onPress: PropTypes.func,
   classPrefix: childrenPropType.string,
+  rightAccessory: childrenPropType,
+  rightAccessoryType: PropTypes.string,
+  rightAccessoryOnPress: PropTypes.func,
+  // rightAccessoryStyles: PropTypes.object,
 };
 
 
@@ -93,6 +121,7 @@ HeaderCell.propTypes = {
 };
 
 
+// TODO : Deprecated, needs to be recreated using the new ListCells model
 // Now we can start to create templated cells
 // Main point is that so long as the container of a cell's content ie the cell...
 // has the same component with the same className, the structure will be uniform
