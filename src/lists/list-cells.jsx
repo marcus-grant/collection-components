@@ -10,14 +10,13 @@ const childrenPropType = PropTypes.oneOfType([
   PropTypes.node,
 ]);
 
-const wrapCell = (className, children, onPress, key) => (
+const wrapCell = (className, children, onPress) => (
   <div
     className={className}
     onClick={onPress}
     onKeyPress={onPress}
     role="menuItem"
     tabIndex={onPress && 0}
-    key={key}
   >
     {children}
   </div>
@@ -45,7 +44,7 @@ const Cell = props => wrapCell(
   [ // The child nodes to wrap
     (props.children || [
       /* PLACEHOLDER for rightAccessory */
-      <Text key={props.key} classBlock={props.classBlock}>{props.text}</Text>,
+      <Text classBlock={props.classBlock}>{props.text}</Text>,
       /* PLACEHOLDER for rightText */
       /* PLACEHOLDER for detailText */
       (
@@ -54,7 +53,6 @@ const Cell = props => wrapCell(
         props.rightAccessory ?
           <CellAccessory key={props.key}>{props.rightAccessory}</CellAccessory> :
           <CellAccessory
-            key={props.key}
             type={props.rightAccessoryType}
             onPress={props.rightAccessoryOnPress}
           />
@@ -62,7 +60,6 @@ const Cell = props => wrapCell(
     ]),
   ],
   props.onPress, // The even handler callback incase this is listening to that
-  props.key,
   // props.styles, // Inline styles if they are desired
 );
 
@@ -74,10 +71,6 @@ const cellPropTypes = {
   rightAccessoryType: PropTypes.string,
   classBlock: PropTypes.string,
   classModifier: PropTypes.string,
-  key: PropTypes.oneOfType([
-    PropTypes.number,
-    PropTypes.string,
-  ]),
 };
 
 const cellDefaultProps = {
@@ -88,7 +81,6 @@ const cellDefaultProps = {
   rightAccessoryType: undefined,
   classBlock: '',
   classModifier: '',
-  key: undefined,
 };
 Cell.defaultProps = Object.assign({ classElement: 'cell' }, cellDefaultProps);
 Cell.propTypes = Object.assign({ classElement: PropTypes.string }, cellPropTypes);
@@ -115,7 +107,6 @@ CollapseHeaderCell.defaultProps = {
   type: 'default',
   onPress: undefined,
   classBlock: '',
-  key: undefined,
 };
 
 CollapseHeaderCell.propTypes = {
@@ -127,9 +118,5 @@ CollapseHeaderCell.propTypes = {
   isCollapsed: PropTypes.bool.isRequired,
   onPress: PropTypes.func.isRequired,
   classBlock: PropTypes.string,
-  key: PropTypes.oneOfType([
-    PropTypes.number,
-    PropTypes.string,
-  ]),
 };
 

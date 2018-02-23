@@ -108,7 +108,7 @@ export default class extends React.Component {
         type="default"
         onPress={this.toggle}
         isCollapsed={this.state.toggle}
-        key={13}
+        key={() => 13}
       />
     );
 
@@ -172,7 +172,7 @@ export default class extends React.Component {
       <div className="app__container--accessories">
         <h3>Pattern Cells</h3>
         {testSectionsArray.map(section => (
-          <div key={section.key} style={containerStyles}>
+          <div key={section.text} style={containerStyles}>
             <h5>{section.text}</h5>
             {section.jsx}
             <br />

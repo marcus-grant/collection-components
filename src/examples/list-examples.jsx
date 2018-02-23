@@ -2,7 +2,7 @@ import React from 'react';
 import {
   ListCell,
   HeaderCell,
-  DefaultCollapsibleHeaderCell,
+  CollapseHeaderCell,
 } from '../lists/list-cells';
 import {
   FlatList,
@@ -38,32 +38,10 @@ export default class extends React.Component {
   }
 
   render() {
-    // const composedCell = (
-    //   <ListCell>
-    //     <h5>This is a h5 tag and button with event handler</h5>
-    //     <button onClick={this.toggle}>Toggle Me!</button>
-    //   </ListCell>
-    // );
-    //
-    // const composedHeaderContent = [
-    //   <h5>Custom HeaderCell Content, also with an event handler</h5>,
-    //   <button onClick={this.toggle}>Toggle Me!</button>,
-    // ];
-    //
-    // const composedHeader = <HeaderCell>{composedHeaderContent}</HeaderCell>;
-    //
-    // const defaultCollapseHeader = (
-    //   <DefaultCollapsibleHeaderCell
-    //     text="This is the template for a collapsible cell"
-    //     isCollapsed={this.state.defaultHeaderIsCollapsed}
-    //     onClick={this.collapseTestHeader}
-    //   />
-    // );
-
     const flatList = (
       <FlatList
         listData={['A', 'B', 'C'].map(x => ({ title: x }))}
-        cellRenderer={x => <ListCell><p><b>{x.title}</b></p></ListCell>}
+        cellRenderer={x => <ListCell text={x.title} />}
       />
     );
 
@@ -71,14 +49,14 @@ export default class extends React.Component {
       <ListSection
         sectionData={{ section: 'A Section', data: ['A', 'B', 'C'] }}
         headerRenderer={(sectionData, isCollapsed, onClick) => (
-          <DefaultCollapsibleHeaderCell
+          <CollapseHeaderCell
             text={sectionData.section}
             isCollapsed={isCollapsed}
-            onClick={onClick}
+            onPress={onClick}
           />
         )}
         dataAccessor="data"
-        cellRenderer={x => <ListCell><p><b>{x}</b></p></ListCell>}
+        cellRenderer={x => <ListCell text={x} />}
       />
     );
 
@@ -92,10 +70,10 @@ export default class extends React.Component {
       <SectionList
         sectionsData={sectionListData}
         headerRenderer={(sectionData, isCollapsed, onClick) => (
-          <DefaultCollapsibleHeaderCell
+          <CollapseHeaderCell
             text={sectionData.title}
             isCollapsed={isCollapsed}
-            onClick={onClick}
+            onPress={onClick}
           />
         )}
         dataAccessor="nums"
