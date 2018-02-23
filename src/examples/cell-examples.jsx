@@ -2,6 +2,7 @@ import React from 'react';
 import {
   ListCell,
   HeaderCell,
+  CollapseHeaderCell,
 //   DefaultCollapsibleHeaderCell,
 } from '../lists/list-cells';
 import Text from '../basic/text';
@@ -101,6 +102,15 @@ export default class extends React.Component {
       />
     );
 
+    const standardCollapseHeader = (
+      <CollapseHeaderCell
+        text="this is the standard collapse header"
+        type="default"
+        onPress={this.toggle}
+        isCollapsed={this.state.toggle}
+      />
+    );
+
     const statesDisplay = (
       <div>
         <h6>toggle: </h6>
@@ -144,6 +154,10 @@ export default class extends React.Component {
       {
         text: '<HeaderCell> same as the standard ListCell, but classed header',
         jsx: standardHeaderCell,
+      },
+      {
+        text: 'This is the standard CollapseHeaderCell',
+        jsx: standardCollapseHeader,
       },
       {
         text: 'Testing States:',
