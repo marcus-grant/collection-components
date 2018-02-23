@@ -10,18 +10,27 @@ const childrenPropType = PropTypes.oneOfType([
   PropTypes.node,
 ]);
 
-const wrapCell = (className, children, onPress, styles) => (
+const wrapCell = (className, children, onPress, key) => (
   <div
     className={className}
     onClick={onPress}
     onKeyPress={onPress}
-    style={styles}
     role="menuItem"
     tabIndex={onPress && 0}
+    key={key}
   >
     {children}
   </div>
 );
+
+const mergeClassName = (block, element, modifier) => {
+  console.time('mergeClassName');
+  const b = block ? `${block}__` : '';
+  const e = element || '';
+  const m = modifier ? `--${modifier}` : '';
+  console.timeEnd('mergeClassName');
+  return `${b}${e}${m}`;
+};
 
 
 // TODO: Handle the leftAccessory, now it doesn't render it at all
@@ -31,19 +40,21 @@ const wrapCell = (className, children, onPress, styles) => (
 // TODO: Add detail & side text components
 // TODO: Add left accessory component
 const Cell = props => wrapCell(
-  props.classElement, // Here is where the element name gets decided for each cell type
+  // Here is where the element name gets decided for each cell type
+  mergeClassName(props.classBlock, props.classElement, props.classModifier),
   [ // The child nodes to wrap
     (props.children || [
       /* PLACEHOLDER for rightAccessory */
-      <Text classBlock="list-cell">{props.text}</Text>,
+      <Text key={props.key} classBlock={props.classBlock}>{props.text}</Text>,
       /* PLACEHOLDER for rightText */
       /* PLACEHOLDER for detailText */
       (
       /* accessories can either be rendered as a child component
       *  OR as a standard CellAccessory by passing props */
         props.rightAccessory ?
-          <CellAccessory>{props.rightAccessory}</CellAccessory> :
+          <CellAccessory key={props.key}>{props.rightAccessory}</CellAccessory> :
           <CellAccessory
+            key={props.key}
             type={props.rightAccessoryType}
             onPress={props.rightAccessoryOnPress}
           />
@@ -51,6 +62,7 @@ const Cell = props => wrapCell(
     ]),
   ],
   props.onPress, // The even handler callback incase this is listening to that
+  props.key,
   // props.styles, // Inline styles if they are desired
 );
 
@@ -62,6 +74,10 @@ const cellPropTypes = {
   rightAccessoryType: PropTypes.string,
   classBlock: PropTypes.string,
   classModifier: PropTypes.string,
+  key: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.string,
+  ]),
 };
 
 const cellDefaultProps = {
@@ -72,6 +88,7 @@ const cellDefaultProps = {
   rightAccessoryType: undefined,
   classBlock: '',
   classModifier: '',
+  key: undefined,
 };
 Cell.defaultProps = Object.assign({ classElement: 'cell' }, cellDefaultProps);
 Cell.propTypes = Object.assign({ classElement: PropTypes.string }, cellPropTypes);
@@ -80,18 +97,17 @@ export const ListCell = props => <Cell classElement="list-cell" {...props} />;
 
 export const HeaderCell = props => <Cell classElement="header-cell" {...props} />;
 
-const defaultCollapseModifier = isCollapsed =>
-  (isCollapsed ? 'triangle-up' : 'triangle-dn');
-const collapseModifiers = {
-  default: defaultCollapseModifier,
+const accessorTypesByState = {
+  default: ['triangle-up', 'triangle-dn'],
 };
+// const getAccessoryTypeFromCollapseType = (type) =>
 
 export const CollapseHeaderCell = (props) => {
   const computedProps = {
-    rightAccessoryType: collapseModifiers[props.type](props.isCollapsed),
+    rightAccessoryType: accessorTypesByState[props.type][props.isCollapsed ? 1 : 0],
     classModifier: props.isCollapsed ? 'collapsed' : '',
   };
-  return <HeaderCell {...Object.assign(props, computedProps)} />;
+  return <HeaderCell {...props} {...computedProps} />;
 };
 
 CollapseHeaderCell.defaultProps = {
@@ -99,6 +115,7 @@ CollapseHeaderCell.defaultProps = {
   type: 'default',
   onPress: undefined,
   classBlock: '',
+  key: undefined,
 };
 
 CollapseHeaderCell.propTypes = {
@@ -110,5 +127,9 @@ CollapseHeaderCell.propTypes = {
   isCollapsed: PropTypes.bool.isRequired,
   onPress: PropTypes.func.isRequired,
   classBlock: PropTypes.string,
+  key: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.string,
+  ]),
 };
 

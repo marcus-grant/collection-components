@@ -108,6 +108,7 @@ export default class extends React.Component {
         type="default"
         onPress={this.toggle}
         isCollapsed={this.state.toggle}
+        key={13}
       />
     );
 
@@ -119,49 +120,51 @@ export default class extends React.Component {
     );
 
     const testSectionsArray = [
-      {
-        text: 'A cycling Accessory (Every type can be clicked through)',
-        jsx: cyclingAccessory,
-      },
-      {
-        text: 'A Text Component with Defaults',
-        jsx: textComponentA,
-      },
-      {
-        text: 'A Text Component with Defaults (but this time block style)',
-        jsx: textComponentB,
-      },
-      {
-        text: 'This text component has BEM (B)lock as "some-block"',
-        jsx: textComponentC,
-      },
-      {
-        text: 'A ListCell created by using it as a container component',
-        jsx: wrappingListCell,
-      },
-      {
-        text: '<ListCell> can have text passed as a prop',
-        jsx: listCellWithText,
-      },
-      {
-        text: '<ListCell> has a callback as prop "onPress"',
-        jsx: listCellOnPressProp,
-      },
-      {
-        text: '<ListCell> has a template acsry. & text with callbacks on both',
-        jsx: listCellWithTextAccessoryTypeCallback,
-      },
-      {
-        text: '<HeaderCell> same as the standard ListCell, but classed header',
-        jsx: standardHeaderCell,
-      },
+      // {
+      //   text: 'A cycling Accessory (Every type can be clicked through)',
+      //   jsx: cyclingAccessory,
+      // },
+      // {
+      //   text: 'A Text Component with Defaults',
+      //   jsx: textComponentA,
+      // },
+      // {
+      //   text: 'A Text Component with Defaults (but this time block style)',
+      //   jsx: textComponentB,
+      // },
+      // {
+      //   text: 'This text component has BEM (B)lock as "some-block"',
+      //   jsx: textComponentC,
+      // },
+      // {
+      //   text: 'A ListCell created by using it as a container component',
+      //   jsx: wrappingListCell,
+      // },
+      // {
+      //   text: '<ListCell> can have text passed as a prop',
+      //   jsx: listCellWithText,
+      // },
+      // {
+      //   text: '<ListCell> has a callback as prop "onPress"',
+      //   jsx: listCellOnPressProp,
+      // },
+      // {
+      //   text: '<ListCell> has a template acsry. & text with callbacks on both',
+      //   jsx: listCellWithTextAccessoryTypeCallback,
+      // },
+      // {
+      //   text: '<HeaderCell> same as the standard ListCell, but classed header',
+      //   jsx: standardHeaderCell,
+      // },
       {
         text: 'This is the standard CollapseHeaderCell',
         jsx: standardCollapseHeader,
+        key: 492,
       },
       {
         text: 'Testing States:',
         jsx: statesDisplay,
+        key: 9832,
       },
     ];
 
@@ -169,7 +172,7 @@ export default class extends React.Component {
       <div className="app__container--accessories">
         <h3>Pattern Cells</h3>
         {testSectionsArray.map(section => (
-          <div style={containerStyles}>
+          <div key={section.key} style={containerStyles}>
             <h5>{section.text}</h5>
             {section.jsx}
             <br />

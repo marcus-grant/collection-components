@@ -1,6 +1,9 @@
 @import "../global-styles/_variables.scss";
 
 .list-cell {
+  -webkit-user-select: none; /* Chrome/Safari */        
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* IE10+ */
   border: 1px solid nth($grey, 9);
   background: $yellow;
   display: flex;
@@ -17,6 +20,10 @@
 
 :focus {
   outline: 0px solid red;
+}
+
+.header-cell--collapsed {
+  @extend .header-cell;
 }
 
 .header-cell__text {
