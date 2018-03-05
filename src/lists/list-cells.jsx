@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Text from '../basic/text';
 import CellAccessory from '../accessories/cell-accessories';
+import { formatBEMClassName } from '../helpers';
 
 import './list-cells.scss';
 
@@ -22,16 +23,6 @@ const wrapCell = (className, children, onPress) => (
   </div>
 );
 
-const mergeClassName = (block, element, modifier) => {
-  console.time('mergeClassName');
-  const b = block ? `${block}__` : '';
-  const e = element || '';
-  const m = modifier ? `--${modifier}` : '';
-  console.timeEnd('mergeClassName');
-  return `${b}${e}${m}`;
-};
-
-
 // TODO: Handle the leftAccessory, now it doesn't render it at all
 // TODO: Handle secondary label
 // TODO: Convert to <li>
@@ -40,7 +31,7 @@ const mergeClassName = (block, element, modifier) => {
 // TODO: Add left accessory component
 const Cell = props => wrapCell(
   // Here is where the element name gets decided for each cell type
-  mergeClassName(props.classBlock, props.classElement, props.classModifier),
+  formatBEMClassName(props.classBlock, props.classElement, props.classModifier),
   [ // The child nodes to wrap
     (props.children || [
       /* PLACEHOLDER for rightAccessory */

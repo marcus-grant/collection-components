@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Dropdown from '../dropdown/dropdown';
 import { ListCell, HeaderCell, CollapseHeaderCell } from '../lists/list-cells';
+import StatusButton from '../basic/status-button';
 
 const numSequences = [
   // { title: 'Triangle', nums: [1, 3, 6, 10, 15, 21, 28] },
@@ -44,7 +45,9 @@ class Demo extends Component {
               onPress={onClick}
             />
           )}
-          itemRenderer={() => <ListCell><button onClick={this.click}>Click Me!</button></ListCell>}
+          itemRenderer={() => (
+            <StatusButton />
+          )}
         />
       </div>
     );
