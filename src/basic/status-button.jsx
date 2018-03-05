@@ -21,7 +21,7 @@ const btnElement = 'btn';
 const loadingCircle = (b, m) => (
   <svg
     className={formatBEMClassName(b, circleElement, m)}
-    viewBox="0 0 70 70"
+    viewBox="0 0 41 41"
   >
     <path d="M38,20.5 C38,30.1685093 30.1685093,38 20.5,38" />
   </svg>
@@ -30,10 +30,22 @@ const loadingCircle = (b, m) => (
 const checkmark = (b, m) => (
   <svg
     className={formatBEMClassName(b, checkElement, m)}
-
+    viewBox="0 0 70 70"
   >
     <path d="m31.5,46.5l15.3,-23.2" />
     <path d="m31.5,46.5l-8.5,-7.1" />
+  </svg>
+);
+
+const cross = (b, m) => (
+  <svg
+    className={formatBEMClassName(b, btnElement, m)}
+    viewBox="0 0 70 70"
+  >
+    <path d="m35,35l-9.3,-9.3" />
+    <path d="m35,35l9.3,9.3" />
+    <path d="m35,35l-9.3,9.3" />
+    <path d="m35,35l9.3,-9.3" />
   </svg>
 );
 
@@ -48,7 +60,7 @@ const StatusButton = (props) => {
     modDisabled,
   } = props;
   return (
-    <h1>blah</h1>
+    <button>{checkmark()}</button>
   );
 };
 
