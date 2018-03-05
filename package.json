@@ -1,11 +1,14 @@
 {
-  "name": "collection-components",
-  "version": "0.0.1",
-  "description": "A set of react components that help construct complex UI's based around collections of data",
-  "main": "src/index.js",
-  "repository": "git@github.com:marcus-grant/collection-components.git",
+  "name": "pattern-ui",
+  "version": "0.1.1",
+  "description": "A fairly minimalistic React & SASS based UI Framework for Web Apps (and mobile in the future)",
+  "main": "dist/index.js",
+  "repository": "git@github.com:marcus-grant/pattern-ui.git",
   "author": "Marcus Grant <marcusfg@gmail.com>",
   "license": "MIT",
+  "engines": {
+    "node": ">=8.0.0"
+  },
   "scripts": {
     "dev": "webpack-dev-server --colors",
     "test": "jest",

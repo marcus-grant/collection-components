@@ -10,7 +10,7 @@ const paths = {
 };
 
 const files = {
-  INDEX_JS: path.join(paths.SRC, 'index.jsx'),
+  INDEX_JS: path.join(paths.SRC, 'app.jsx'),
   INDEX_HTML: 'dist/index.html',
   MAIN_SCSS: path.join(paths.SRC, 'index.scss'),
   BUNDLE: 'bundle.js',
