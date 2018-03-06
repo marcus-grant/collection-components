@@ -11,8 +11,9 @@ const childrenPropType = PropTypes.oneOfType([
   PropTypes.node,
 ]);
 
-const wrapCell = (className, children, onPress) => (
+const wrapCell = (className, children, onPress, key) => (
   <div
+    key={key}
     className={className}
     onClick={onPress}
     onKeyPress={onPress}
@@ -35,15 +36,22 @@ const Cell = props => wrapCell(
   [ // The child nodes to wrap
     (props.children || [
       /* PLACEHOLDER for rightAccessory */
-      <Text classBlock={props.classBlock}>{props.text}</Text>,
+      <Text
+        key={`${props.cellKey || props.cellIndex}-mainText`}
+        classBlock={props.classBlock}
+      >{props.text}
+      </Text>,
       /* PLACEHOLDER for rightText */
       /* PLACEHOLDER for detailText */
       (
       /* accessories can either be rendered as a child component
       *  OR as a standard CellAccessory by passing props */
         props.rightAccessory ?
-          <CellAccessory key={props.key}>{props.rightAccessory}</CellAccessory> :
+          <CellAccessory key={`${props.cellKey || props.cellIndex}-rAcc`}>
+            {props.rightAccessory}
+          </CellAccessory> :
           <CellAccessory
+            key={`c${props.cellIndex}-rAcc`}
             type={props.rightAccessoryType}
             onPress={props.rightAccessoryOnPress}
           />
@@ -52,12 +60,14 @@ const Cell = props => wrapCell(
   ],
   props.onPress, // The even handler callback incase this is listening to that
   // props.styles, // Inline styles if they are desired
+  props.cellKey,
 );
 
 const cellPropTypes = {
   children: childrenPropType,
   text: PropTypes.string,
   onPress: PropTypes.func,
+  cellIndex: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   rightAccessory: childrenPropType,
   rightAccessoryType: PropTypes.string,
   classBlock: PropTypes.string,
@@ -67,7 +77,10 @@ const cellPropTypes = {
 const cellDefaultProps = {
   children: undefined,
   text: undefined,
+  cellKey: undefined,
+  cellIndex: undefined,
   onPress: undefined,
+  index: undefined,
   rightAccessory: undefined,
   rightAccessoryType: undefined,
   classBlock: '',
@@ -76,7 +89,9 @@ const cellDefaultProps = {
 Cell.defaultProps = Object.assign({ classElement: 'cell' }, cellDefaultProps);
 Cell.propTypes = Object.assign({ classElement: PropTypes.string }, cellPropTypes);
 
-export const ListCell = props => <Cell classElement="list-cell" {...props} />;
+export const ListCell = props => (
+  <Cell classElement="list-cell" {...props} />
+);
 
 export const HeaderCell = props => <Cell classElement="header-cell" {...props} />;
 
@@ -98,6 +113,7 @@ CollapseHeaderCell.defaultProps = {
   type: 'default',
   onPress: undefined,
   classBlock: '',
+  cellKey: undefined,
 };
 
 CollapseHeaderCell.propTypes = {
@@ -109,5 +125,6 @@ CollapseHeaderCell.propTypes = {
   isCollapsed: PropTypes.bool.isRequired,
   onPress: PropTypes.func.isRequired,
   classBlock: PropTypes.string,
+  cellKey: PropTypes.string,
 };
 

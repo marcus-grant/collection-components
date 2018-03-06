@@ -3,11 +3,15 @@ import PropTypes from 'prop-types';
 
 import './lists.scss';
 
-const wrap = (className, children) => <div className={className}>{children}</div>;
+// TODO: keying needs to be refactored to be simpler, not all keys are necessary
+const defaultKeyExtractor = (element, index) => `${element}${index}`;
+
+const wrap = (className, children, key) =>
+  <div key={key} className={className}>{children}</div>;
 
 const listClass = 'list__container';
 
-const wrapList = list => wrap(listClass, list);
+const wrapList = (list, key) => wrap(listClass, list, key);
 
 // Consider changing from <div>s to <li>s
 // Also consider turning each rendering mode into its own function or component
@@ -16,9 +20,10 @@ const wrapList = list => wrap(listClass, list);
 export const FlatList = (props) => {
   let list = props.children;
   if (!list) {
-    list = props.listData.map((cellData, key) => props.cellRenderer(cellData, key));
+    list = props.listData.map((cellData, index) =>
+      props.cellRenderer(cellData, index));
   }
-  return wrapList(list);
+  return wrapList(list, `fl${props.listIndex}`);
 };
 
 const propTypeChildren = PropTypes.oneOfType([
@@ -38,17 +43,19 @@ FlatList.defaultProps = {
   children: undefined,
   cellRenderer: undefined,
   listData: undefined,
+  listIndex: undefined,
 };
 
 FlatList.propTypes = {
   children: propTypeChildren,
   cellRenderer: PropTypes.func,
   listData: propTypeDataArray,
+  index: PropTypes.number,
 };
 
 const sectionClass = 'list-section__container';
 
-const wrapListSection = section => wrap(sectionClass, section);
+const wrapListSection = (section, key) => wrap(sectionClass, section, key);
 
 // TODO: Consider adding an accessor function to fetch an array from sectionData
 export class ListSection extends React.Component {
@@ -73,11 +80,14 @@ export class ListSection extends React.Component {
           this.props.sectionData,
           this.state.isCollapsed,
           this.toggleSection,
+          this.props.sectionIndex,
         ),
         !this.state.isCollapsed && (
           <FlatList
             listData={this.props.sectionData[this.props.dataAccessor]}
             cellRenderer={this.props.cellRenderer}
+            listIndex={this.props.sectionIndex}
+            key={`l${this.props.sectionIndex}`}
           />
         ),
       ]);
@@ -87,6 +97,7 @@ export class ListSection extends React.Component {
 ListSection.defaultProps = {
   children: undefined,
   sectionData: undefined,
+  sectionIndex: undefined,
   cellRenderer: undefined,
   headerRenderer: undefined,
   isCollapsible: true,
@@ -96,6 +107,7 @@ ListSection.defaultProps = {
 ListSection.propTypes = {
   children: propTypeChildren,
   sectionData: propTypeListDataItem,
+  sectionIndex: PropTypes.number,
   cellRenderer: PropTypes.func,
   headerRenderer: PropTypes.func,
   isCollapsible: PropTypes.bool,
@@ -107,8 +119,10 @@ const sectionListClass = 'section-list__container';
 const wrapSectionList = list => wrap(sectionListClass, list);
 
 export const SectionList = props => wrapSectionList((!props.children && (
-  props.sectionsData.map(section => (
+  props.sectionsData.map((section, index) => (
     <ListSection
+      sectionIndex={index}
+      key={defaultKeyExtractor('ls', index)}
       sectionData={section}
       headerRenderer={props.headerRenderer}
       cellRenderer={props.cellRenderer}

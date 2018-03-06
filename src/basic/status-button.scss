@@ -1,0 +1,23 @@
+.status-button {
+  background: none;
+  color: black;
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
+}
+
+.status-button--success {
+  background: green;
+  width: 3rem;
+}
+.status-button--error {
+  background: red;
+  width: 3rem;
+}
+
+.status-button--loading {
+  background: yellow;
+  width: 3rem;
+}
