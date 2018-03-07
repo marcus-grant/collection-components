@@ -4,7 +4,10 @@ import Dropdown from '../dropdown/dropdown';
 import { ListCell, HeaderCell, CollapseHeaderCell } from '../lists/list-cells';
 import StatusButton from '../basic/status-button';
 
-const numSequences = [ // { title: 'Triangle', nums: [1, 3, 6, 10, 15, 21, 28] }, { title: 'Fibonacci', nums: [1, 1, 2, 3, 5, 8, 13] }, { title: 'Prime', nums: [1, 2, 3, 5, 7, 11, 13] },
+const numSequences = [
+  // { title: 'Triangle', nums: [1, 3, 6, 10, 15, 21, 28] },
+  { title: 'Fibonacci', nums: [1, 1, 2, 3, 5, 8, 13] },
+  { title: 'Prime', nums: [1, 2, 3, 5, 7, 11, 13] },
   // { title: 'Squares', nums: [1, 4, 9, 16, 25, 36] },
 ];
 
