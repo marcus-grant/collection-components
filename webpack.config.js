@@ -39,7 +39,7 @@ module.exports = {
         // Then also, 'babel-loader' instead of 'babel' is needed
         loader: 'babel-loader',
         query: {
-          presets: ['es2015', 'react'],
+          presets: ['es2015', 'react', 'stage-3'],
         },
       },
       // TODO: Figure out how to properly extract regular css as loader
