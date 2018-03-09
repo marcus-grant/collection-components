@@ -12,8 +12,8 @@ const Defaults = {
   },
   Dimensions: {
     UNITS: 'px',
-    WIDTH: 32,
-    HEIGHT: 32,
+    WIDTH: 20,
+    HEIGHT: 20,
     VIEWBOX_WIDTH: 50,
     VIEWBOX_HEIGHT: 50,
     X_OFF: 0,
@@ -569,5 +569,4 @@ ScalingPhasingBars.defaultProps = {
   duration: Defaults.DURATION,
   opacity: 0.2,
 };
-
 

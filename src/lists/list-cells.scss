@@ -5,17 +5,34 @@
   -moz-user-select: none; /* Firefox */
   -ms-user-select: none; /* IE10+ */
   border: 1px solid nth($grey, 9);
-  background: $purple-bright;
+  background: nth($grey, 3);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  color: nth($grey, 1);
+  color: nth($grey, 9);
+  padding-right: 0px;
+  padding-left: 8px;
+  p {
+    font-size: 16px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+  }
 }
 
 .header-cell {
   @extend .list-cell;
-  background: $blue-bright;
+  background: nth($grey, 8);
+  color: nth($grey, 1);
+  height: 30px;
+  p {
+    margin: 4px 4px;
+    font-weight: 600;
+    font-size: 13px;
+  }
+}
 
+p.header-cell, p.header-cell--collapsed {
+  margin: 100px;
 }
 
 :focus {

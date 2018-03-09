@@ -12,14 +12,14 @@ const childrenPropType = PropTypes.oneOfType([
 ]);
 
 
-const wrap = (className, children, onPress, styles) => (
+const wrap = (className, children, onPress, cellIndex, sectionIndex, styles) => (
   <div
     className={className}
-    onClick={onPress}
-    onKeyPress={onPress}
+    onClick={onPress ? (() => onPress(cellIndex, sectionIndex)) : undefined}
+    onKeyPress={onPress ? (() => onPress(cellIndex, sectionIndex)) : undefined}
     style={styles}
     role="menuItem"
-    tabIndex={onPress && 0}
+    tabIndex={0}
   >
     {children}
   </div>
@@ -28,9 +28,9 @@ const wrap = (className, children, onPress, styles) => (
 // TODO: If needed add Block prefix and/or Mod suffix for className
 const accessoryClass = 'cell-accessory__container';
 
-const wrapAccessory = (children, onPress, styles) =>
-  wrap(accessoryClass, children, onPress, styles);
-
+const wrapAccessory = (children, onPress, cellIndex, sectionIndex, styles) =>
+  // console.log('wrapAccessory.onPress', onPress);
+  wrap(accessoryClass, children, onPress, cellIndex, sectionIndex, styles);
 const ACCESSORIES = {
   triangleUp: <TriIndicator direction="up" />,
   triangleDn: <TriIndicator direction="dn" />,
@@ -53,14 +53,15 @@ const accessoryFromString = (str) => {
   }
 };
 
-const CellAccessory = props => (
+const CellAccessory = props =>
+  // console.log('CellAccessory.props.onPress', props.onPress);
   wrapAccessory(
     (props.children || accessoryFromString(props.type)),
     props.onPress,
+    props.cellIndex,
+    props.sectionIndex,
     // props.styles,
-  )
-);
-
+  );
 CellAccessory.defaultProps = {
   children: undefined,
   type: undefined,
@@ -72,6 +73,8 @@ CellAccessory.propTypes = {
   children: childrenPropType,
   type: PropTypes.string,
   onPress: PropTypes.func,
+  cellIndex: PropTypes.number.isRequired,
+  sectionIndex: PropTypes.number.isRequired,
   // styles: PropTypes.object,
 };
 

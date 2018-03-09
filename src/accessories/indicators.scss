@@ -14,7 +14,8 @@ $indicator-color: $silver;
 .tri-indicator {
   width: 0;
   height: 0;
-  margin: $indicator-size / 1.61;
+  // margin: $indicator-size / 3.2;
+  margin: 2px;
 }
 
 .tri-indicator--vert-axis-constraints {

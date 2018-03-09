@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { formatBEMClassName } from '../helpers';
+import { Spinner, PhasingBars } from '../accessories/progress-indicators';
 
 import './status-button.scss';
 
@@ -13,86 +13,66 @@ export const STATUS = {
   SUCCESS: 'success',
   ERROR: 'error',
   DISABLED: 'disabled',
+  COMPLETE: 'complete',
 };
 
 const defClassName = 'status-button';
 
-const circleElement = 'indicator';
-const checkElement = 'checkmark';
-const crossElement = 'cross';
-const btnElement = 'btn';
-
 // TODO: Give all these better className processing by specifying block of name
-const loadingCircle = (
-  <svg
-    className={`${defClassName}--${STATUS.LOADING}`}
-    viewBox="0 0 41 41"
-  >
-    <path d="M38,20.5 C38,30.1685093 30.1685093,38 20.5,38" />
-  </svg>
-);
-
-const checkmark = (
-  <svg
-    className={`${defClassName}--${STATUS.SUCCESS}`}
-    viewBox="0 0 70 70"
-  >
-    <path d="m31.5,46.5l15.3,-23.2" />
-    <path d="m31.5,46.5l-8.5,-7.1" />
-  </svg>
-);
-
-const cross = (
-  <svg
-    className={`${defClassName}--${STATUS.ERROR}`}
-    viewBox="0 0 70 70"
-  >
-    <path d="m35,35l-9.3,-9.3" />
-    <path d="m35,35l9.3,9.3" />
-    <path d="m35,35l-9.3,9.3" />
-    <path d="m35,35l9.3,-9.3" />
-  </svg>
-);
-
-const indicatorFromStatus = (status) => {
-  switch (status) {
-    case STATUS.LOADING: return loadingCircle;
-    case STATUS.SUCCESS: return checkmark;
-    case STATUS.ERROR: return cross;
-    default: return undefined;
-  }
-};
+const loadingCircle = <Spinner />;
+const phasingBars = <PhasingBars width={30} height={24} />;
 
 const StatusButton = (props) => {
   const {
     status,
     onClick,
+    successText,
+    failText,
+    initText,
+    completeText,
+    disabledText,
   } = props;
-  console.log('status: ', status);
+  let statusVis;
+  switch (status) {
+    case STATUS.INIT: statusVis = initText; break;
+    case STATUS.LOADING: statusVis = phasingBars; break;
+    case STATUS.SUCCESS: statusVis = successText; break;
+    case STATUS.ERROR: statusVis = failText; break;
+    case STATUS.COMPLETE: statusVis = completeText; break;
+    case STATUS.DISABLED: statusVis = disabledText; break;
+    default: statusVis = initText;
+  }
+  const computedClass = props.classBlock ?
+    `${props.classBlock}__${defClassName}` : defClassName;
   return (
-    <button className={defClassName}>{indicatorFromStatus(status)}</button>
+    <button
+      className={computedClass}
+      onClick={onClick}
+    >{statusVis}
+    </button>
   );
 };
 
 StatusButton.propTypes = {
-  classBlock: PropTypes.string,
-  modInit: PropTypes.string,
-  modLoading: PropTypes.string,
-  modSuccess: PropTypes.string,
-  modError: PropTypes.string,
-  modDisabled: PropTypes.string,
-  onClick: PropTypes.func.isRequired,
+  onClick: PropTypes.func,
   status: PropTypes.oneOf(Object.keys(STATUS).map(k => STATUS[k])),
+  successText: PropTypes.string,
+  failText: PropTypes.string,
+  initText: PropTypes.string,
+  completeText: PropTypes.string,
+  disabledText: PropTypes.string,
+  classBlock: PropTypes.string,
 };
 
 StatusButton.defaultProps = {
+  onClick: undefined,
   classBlock: '',
   status: STATUS.INIT,
-  modInit: STATUS.INIT,
-  modLoading: STATUS.LOADING,
-  modSuccess: STATUS.SUCCESS,
-  modError: STATUS.ERROR,
-  modDisabled: STATUS.DISABLED,
+  successText: 'Success!',
+  failText: 'Error',
+  initText: 'Select',
+  completeText: 'De-Select',
+  disabledText: 'Disabled',
 };
 
 export default StatusButton;

@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { SectionList /* FlatList */ } from '../lists/lists';
 import { CollapseHeaderCell } from '../lists/list-cells';
 
+import './dropdown.scss';
+
 class Dropdown extends Component {
   constructor(props) {
     super(props);
@@ -26,6 +28,8 @@ class Dropdown extends Component {
               isCollapsed={this.state.isCollapsed}
               onPress={this.toggle}
               cellKey="DDHeadCell"
+              sectionIndex={-1}
+              cellIndex={-1}
             />
         }
         {

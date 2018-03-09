@@ -11,14 +11,14 @@ const childrenPropType = PropTypes.oneOfType([
   PropTypes.node,
 ]);
 
-const wrapCell = (className, children, onPress, key) => (
+const wrapCell = (className, children, onPress, key, cellIndex, sectionIndex) => (
   <div
     key={key}
     className={className}
-    onClick={onPress}
-    onKeyPress={onPress}
+    onClick={onPress ? () => onPress(cellIndex, sectionIndex) : undefined}
+    onKeyPress={onPress ? () => onPress(cellIndex, sectionIndex) : undefined}
     role="menuItem"
-    tabIndex={onPress && 0}
+    tabIndex={0}
   >
     {children}
   </div>
@@ -30,44 +30,56 @@ const wrapCell = (className, children, onPress, key) => (
 // TODO: Give semantics to change width based on min/max of text, sass or text width
 // TODO: Add detail & side text components
 // TODO: Add left accessory component
-const Cell = props => wrapCell(
-  // Here is where the element name gets decided for each cell type
-  formatBEMClassName(props.classBlock, props.classElement, props.classModifier),
-  [ // The child nodes to wrap
-    (props.children || [
-      /* PLACEHOLDER for rightAccessory */
-      <Text
-        key={`${props.cellKey || props.cellIndex}-mainText`}
-        classBlock={props.classBlock}
-      >{props.text}
-      </Text>,
-      /* PLACEHOLDER for rightText */
-      /* PLACEHOLDER for detailText */
-      (
-      /* accessories can either be rendered as a child component
-      *  OR as a standard CellAccessory by passing props */
-        props.rightAccessory ?
-          <CellAccessory key={`${props.cellKey || props.cellIndex}-rAcc`}>
-            {props.rightAccessory}
-          </CellAccessory> :
-          <CellAccessory
-            key={`c${props.cellIndex}-rAcc`}
-            type={props.rightAccessoryType}
-            onPress={props.rightAccessoryOnPress}
-          />
-      ),
-    ]),
-  ],
-  props.onPress, // The even handler callback incase this is listening to that
-  // props.styles, // Inline styles if they are desired
-  props.cellKey,
-);
-
+const Cell = props =>
+  // console.log('Cell.props.sectionIndex', props.rightAccessoryOnPress);
+  wrapCell(
+    // Here is where the element name gets decided for each cell type
+    formatBEMClassName(props.classBlock, props.classElement, props.classModifier),
+    [ // The child nodes to wrap
+      (props.children || [
+        /* PLACEHOLDER for rightAccessory */
+        <Text
+          key={`${props.cellKey || props.cellIndex}-mainText`}
+          classBlock={props.classBlock}
+        >{props.text}
+        </Text>,
+        /* PLACEHOLDER for rightText */
+        /* PLACEHOLDER for detailText */
+        (
+        /* accessories can either be rendered as a child component
+        *  OR as a standard CellAccessory by passing props */
+          props.rightAccessory ?
+            <CellAccessory
+              key={`${props.cellKey || props.cellIndex}-rAcc`}
+              onPress={props.rightAccessoryOnPress}
+              cellIndex={props.cellIndex}
+              sectionIndex={props.sectionIndex}
+            >
+              {props.rightAccessory}
+            </CellAccessory> :
+            <CellAccessory
+              key={`c${props.cellIndex}-rAcc`}
+              type={props.rightAccessoryType}
+              onPress={props.rightAccessoryOnPress}
+              cellIndex={props.cellIndex}
+              sectionIndex={props.sectionIndex}
+            />
+        ),
+      ]),
+    ],
+    // props.onPress ? props.onPress(props.cellIndex, props.sectionIndex) : undefined,
+    props.onPress,
+    // props.styles, // Inline styles if they are desired
+    props.cellKey,
+    props.cellIndex,
+    props.sectionIndex,
+  );
 const cellPropTypes = {
   children: childrenPropType,
   text: PropTypes.string,
   onPress: PropTypes.func,
-  cellIndex: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  cellIndex: PropTypes.number,
+  sectionIndex: PropTypes.number,
   rightAccessory: childrenPropType,
   rightAccessoryType: PropTypes.string,
   classBlock: PropTypes.string,
@@ -79,6 +91,7 @@ const cellDefaultProps = {
   text: undefined,
   cellKey: undefined,
   cellIndex: undefined,
+  sectionIndex: undefined,
   onPress: undefined,
   index: undefined,
   rightAccessory: undefined,
@@ -93,8 +106,11 @@ export const ListCell = props => (
   <Cell classElement="list-cell" {...props} />
 );
 
-export const HeaderCell = props => <Cell classElement="header-cell" {...props} />;
-
+export const HeaderCell = props =>
+  // console.log('HeaderCell.props.onPress', props.onPress);
+  (
+    <Cell classElement="header-cell" {...props} />
+  );
 const accessorTypesByState = {
   default: ['triangle-up', 'triangle-dn'],
 };
@@ -104,6 +120,7 @@ export const CollapseHeaderCell = (props) => {
   const computedProps = {
     rightAccessoryType: accessorTypesByState[props.type][props.isCollapsed ? 1 : 0],
     classModifier: props.isCollapsed ? 'collapsed' : '',
+    sectionIndex: props.sectionIndex,
   };
   return <HeaderCell {...props} {...computedProps} />;
 };
@@ -114,6 +131,7 @@ CollapseHeaderCell.defaultProps = {
   onPress: undefined,
   classBlock: '',
   cellKey: undefined,
+  sectionIndex: undefined,
 };
 
 CollapseHeaderCell.propTypes = {
@@ -126,5 +144,7 @@ CollapseHeaderCell.propTypes = {
   onPress: PropTypes.func.isRequired,
   classBlock: PropTypes.string,
   cellKey: PropTypes.string,
+  cellIndex: PropTypes.number.isRequired,
+  sectionIndex: PropTypes.number.isRequired,
 };
 

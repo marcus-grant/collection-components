@@ -20,8 +20,8 @@ const wrapList = (list, key) => wrap(listClass, list, key);
 export const FlatList = (props) => {
   let list = props.children;
   if (!list) {
-    list = props.listData.map((cellData, index) =>
-      props.cellRenderer(cellData, index));
+    list = props.listData.map((cellData, cellIndex) =>
+      props.cellRenderer(cellData, cellIndex, props.listIndex));
   }
   return wrapList(list, `fl${props.listIndex}`);
 };
@@ -50,7 +50,7 @@ FlatList.propTypes = {
   children: propTypeChildren,
   cellRenderer: PropTypes.func,
   listData: propTypeDataArray,
-  index: PropTypes.number,
+  listIndex: PropTypes.number,
 };
 
 const sectionClass = 'list-section__container';
